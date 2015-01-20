@@ -71,8 +71,8 @@ bool FinishedState::HasBuildingsOf5Colours(shared_ptr<Player> player) {
 	for (int i{ 0 }; i < player->GetCityCardContainer()->Size(); i++) {
 		shared_ptr<DistrictCard> card = player->GetCityCardContainer()->At(i);
 
-		if (std::find(checkList.begin(), checkList.end(), card->GetColour()) != checkList.end()) {
-			checkList.push_back(card->GetColour());
+		if (std::find(checkList.begin(), checkList.end(), card->getColour()) != checkList.end()) {
+			checkList.push_back(card->getColour());
 		}
 	}
 

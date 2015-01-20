@@ -13,7 +13,7 @@ class CardReader
 {
 public:
 	CardReader(string filePath);
-	~CardReader();
+	virtual ~CardReader();
 
 	void parse();
 	vector<shared_ptr<DistrictCard>> getCards();

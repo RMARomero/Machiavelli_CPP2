@@ -78,7 +78,7 @@ public:
 	bool HasCard(string name) {
 		bool result = false;
 		for (int i{ 0 }; i < m_Cards.size() && !result; i++) {
-			result = (m_Cards.at(i)->GetName() == name);
+			result = (m_Cards.at(i)->getName() == name);
 		}
 
 		return result;
@@ -88,7 +88,7 @@ public:
 		vector<string> cardNames;
 
 		for (int i{ 0 }; i < m_Cards.size(); i++) {
-			cardNames.push_back(m_Cards.at(i)->GetName());
+			cardNames.push_back(m_Cards.at(i)->getName());
 		}
 
 		return cardNames;
