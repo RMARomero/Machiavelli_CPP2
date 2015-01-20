@@ -18,7 +18,8 @@ GameLoop::GameLoop()
 
 	shared_ptr<ClientSocket> server{ new ClientSocket(m_IP, m_Port) };
 
-	while (true) { // game loop
+	while (true)
+	{ // game loop
 		try {
 			// read first line of request
 			string cmd = server->readline();

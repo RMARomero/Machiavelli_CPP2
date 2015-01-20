@@ -101,10 +101,10 @@ void PlayerList::MoveToFront(shared_ptr<Player> player)
 {
 	vector<shared_ptr<Player>> newPlayerList{player};
 
-	for (auto &plr : m_PlayerList) 
+	for (auto &i : m_PlayerList) 
 	{
-		if (plr != player) {
-			newPlayerList.push_back(plr);
+		if (i != player) {
+			newPlayerList.push_back(i);
 		}
 	}
 
