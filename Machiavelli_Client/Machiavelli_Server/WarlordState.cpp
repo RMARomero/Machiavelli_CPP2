@@ -41,7 +41,7 @@ void WarlordState::Handle(GameRunningState& context, GameManager& gm){
 	for (int i{ 0 }; i < choosenVictim->GetCityCardContainer()->Size(); i++) {
 		shared_ptr<DistrictCard> card = choosenVictim->GetCityCardContainer()->At(i);
 
-		destroyables.push_back(card->GetName() + " costs to destroy: " + std::to_string(card->getCost() - 1));
+		destroyables.push_back(card->getName() + " costs to destroy: " + std::to_string(card->getCost() - 1));
 	}
 
 	if (!destroyables.empty()) {
@@ -49,14 +49,14 @@ void WarlordState::Handle(GameRunningState& context, GameManager& gm){
 
 		shared_ptr<DistrictCard> removedCard = choosenVictim->GetCityCardContainer()->Take(choice);
 
-		if (removedCard->getCost() - 1 > m_CurrentPlayer->GetGoldPieces() || removedCard->GetName() == "Kerker") {
+		if (removedCard->getCost() - 1 > m_CurrentPlayer->GetGoldPieces() || removedCard->getName() == "Kerker") {
 			m_CurrentPlayer->Send("You cannot do this!");
 			choosenVictim->GetCityCardContainer()->Push_Back(removedCard);
 		}
 		else {
 
 			if (choosenVictim->GetCityCardContainer()->HasCard("Kerkhof") && choosenVictim->GetGoldPieces() >= 1) {
-				int action = choosenVictim->RequestInput("The building " + removedCard->GetName() + " is about to be destroyed. Would you like to keep it?", vector < string > { "yes", "no"});
+				int action = choosenVictim->RequestInput("The building " + removedCard->getName() + " is about to be destroyed. Would you like to keep it?", vector < string > { "yes", "no"});
 
 				if (action == 0) {
 					choosenVictim->GetDistrictCardContainer()->Push_Back(removedCard);
@@ -69,7 +69,7 @@ void WarlordState::Handle(GameRunningState& context, GameManager& gm){
 			}
 			else {
 				gm.GetCardManager()->GetDistrictCardDiscardPile()->Push_Back(removedCard);
-				choosenVictim->Send("You building " + removedCard->GetName() + " has been destroyed by " + m_CurrentPlayer->GetName());
+				choosenVictim->Send("You building " + removedCard->getName() + " has been destroyed by " + m_CurrentPlayer->GetName());
 			}
 		
 		

@@ -137,7 +137,7 @@ void Player::GiveGPForCards(CardColour colour) {
 	int cardCount{ 0 };
 
 	for (int i{ 0 }; i < GetCityCardContainer()->Size(); i++) {
-		if (GetCityCardContainer()->At(i)->GetColour() == colour) {
+		if (GetCityCardContainer()->At(i)->getColour() == colour) {
 			cardCount++;
 		}
 	}
@@ -160,19 +160,19 @@ void Player::ShowStats() {
 	output += "> CITY <\n";
 
 	for (int i{ 0 }; i < GetCityCardContainer()->Size(); i++) {
-		output += " - " + GetCityCardContainer()->At(i)->GetName() + "\n";
+		output += " - " + GetCityCardContainer()->At(i)->getName() + "\n";
 	}
 
 	output += "\n\n > DistrictCards < \n";
 
 	for (int i{ 0 }; i < GetDistrictCardContainer()->Size(); i++) {
-		output += " - " + GetDistrictCardContainer()->At(i)->GetName() + "\n";
+		output += " - " + GetDistrictCardContainer()->At(i)->getName() + "\n";
 	}
 
 	output += "\n\n > Characters < \n";
 
 	for (int i{ 0 }; i < GetCharacterCardContainer()->Size(); i++) {
-		output += " - " + GetCharacterCardContainer()->At(i)->GetName() + "\n";
+		output += " - " + GetCharacterCardContainer()->At(i)->getName() + "\n";
 	}
 
 	output += "\n\n Wallet: " + std::to_string(GetGoldPieces()) + "gp\n";
