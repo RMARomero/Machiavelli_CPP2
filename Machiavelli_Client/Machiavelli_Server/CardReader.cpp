@@ -5,7 +5,7 @@ CardReader::CardReader(string filePath)
 	m_sFilePath = filePath;
 	m_ColourMap["geel"] = yellow;
 	m_ColourMap["groen"] = green;
-	m_ColourMap["blauw"] = yellow;
+	m_ColourMap["blauw"] = blue;
 	m_ColourMap["rood"] = red;
 	m_ColourMap["lila"] = purple;
 }

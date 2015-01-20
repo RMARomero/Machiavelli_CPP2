@@ -4,8 +4,8 @@ class LobbyState :
 	public IGameState
 {
 public:
-	LobbyState();
+	LobbyState(){}
+	virtual ~LobbyState(){}
 	void Handle(GameManager& gm);
-	virtual ~LobbyState();
 };
 

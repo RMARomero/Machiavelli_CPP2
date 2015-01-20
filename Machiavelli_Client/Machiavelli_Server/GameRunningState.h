@@ -4,12 +4,12 @@
 class GameRunningState :
 	public IGameState
 {
-private:
-	shared_ptr<IRoundState> m_CurrentRound;
 public:
 	GameRunningState();
+	virtual ~GameRunningState(){}
 	void Handle(GameManager& gm);
-	virtual ~GameRunningState();
 	void setState(shared_ptr<IRoundState> roundState);
+private:
+	shared_ptr<IRoundState> m_CurrentRound;
 };
 

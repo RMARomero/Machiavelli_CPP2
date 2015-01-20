@@ -9,12 +9,13 @@ FinishedState::FinishedState()
 	*/
 }
 
-
-
-void FinishedState::Handle(GameManager& gm){
+void FinishedState::Handle(GameManager& gm)
+{
 	map<shared_ptr<Player>, int> scoreboard;
 	
-	for (int i{ 0 }; gm.GetPlayerList()->Size(); i++) {
+
+	for (int i{ 0 }; gm.GetPlayerList()->Size(); i++) 
+	{
 		int points{ 0 };
 		shared_ptr<Player> player = gm.GetPlayerList()->GetPlayerAt(i);
 
@@ -50,28 +51,24 @@ void FinishedState::Handle(GameManager& gm){
 	winner->Send("Congratulations, you have won the game with " + std::to_string(scoreboard[winner]) + " points");
 	gm.GetPlayerList()->SendAllBut(winner, "The game has been won by " + winner->GetName() + " with " + std::to_string(scoreboard[winner]) + " points");
 
-
-
-
-	while (true){
+	while (true)
+	{
 		// prevent the server from shutting down.
 		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 	}
-
 }
 
-FinishedState::~FinishedState()
+
+bool FinishedState::HasBuildingsOf5Colours(shared_ptr<Player> player)
 {
-}
-
-
-bool FinishedState::HasBuildingsOf5Colours(shared_ptr<Player> player) {
 	vector<CardColour> checkList;
 	
-	for (int i{ 0 }; i < player->GetCityCardContainer()->Size(); i++) {
+	for (int i{ 0 }; i < player->GetCityCardContainer()->Size(); i++)
+	{
 		shared_ptr<DistrictCard> card = player->GetCityCardContainer()->At(i);
 
-		if (std::find(checkList.begin(), checkList.end(), card->GetColour()) != checkList.end()) {
+		if (std::find(checkList.begin(), checkList.end(), card->GetColour()) != checkList.end())
+		{
 			checkList.push_back(card->GetColour());
 		}
 	}
@@ -79,17 +76,22 @@ bool FinishedState::HasBuildingsOf5Colours(shared_ptr<Player> player) {
 	return checkList.size() >= 5 || checkList.size() >= 4 && player->GetCityCardContainer()->HasCard("Hof der Wonderen");
 }
 
-shared_ptr<Player> FinishedState::GetWinningPlayer(map<shared_ptr<Player>, int> scoreboard) {
+shared_ptr<Player> FinishedState::GetWinningPlayer(map<shared_ptr<Player>, int> scoreboard)
+{
 	int highestScore = -1;
 	shared_ptr<Player> winner;
 
-	for (auto &score : scoreboard) {
-		if (score.second > highestScore) {
+	for (auto &score : scoreboard)
+	{
+		if (score.second > highestScore)
+		{
 			highestScore = score.second;
 			winner = score.first;
 		}
-		else if (score.second == highestScore) {
-			if (score.first->GetCityCardContainer()->Size() > winner->GetCityCardContainer()->Size()) {
+		else if (score.second == highestScore)
+		{
+			if (score.first->GetCityCardContainer()->Size() > winner->GetCityCardContainer()->Size())
+			{
 				winner = score.first;
 			}
 		}

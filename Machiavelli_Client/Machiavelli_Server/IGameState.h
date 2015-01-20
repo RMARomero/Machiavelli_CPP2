@@ -9,7 +9,7 @@ class IGameState
 {
 public:
 	IGameState(){}
-	virtual void Handle(GameManager& gm) = 0;
 	virtual ~IGameState(){}
+	virtual void Handle(GameManager& gm) = 0;
 };
 
