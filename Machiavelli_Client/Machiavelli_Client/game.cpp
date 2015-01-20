@@ -26,13 +26,13 @@ game::game()
 
 			if (cmd == "Bye!") 
 			{
-				break; //not sure if you ever come here.
+				break; //break the game loop, and end the connection
 			}
 			else if (cmd == "input")
 			{
 				string input = "";
 				getline(cin, input);
-				server->write(input + "\n"); //not sure if you ever come here
+				server->write(input + "\n"); //write the input and pass it on to the server
 			}
 			else
 			{
