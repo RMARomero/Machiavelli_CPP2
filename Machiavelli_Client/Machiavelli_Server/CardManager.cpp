@@ -1,5 +1,6 @@
 #include "CardManager.h"
 #include "CardPile.h"
+
 CardManager::CardManager()
 {
 	
@@ -40,29 +41,7 @@ CardManager::CardManager()
 
 	CardReader reader("district_cards.csv");
 	reader.parse();
+
 	m_DistrictCardPile->AddCardPile(reader.getCards());
-
-	
 }
 
-
-shared_ptr<CardPile<DistrictCard>> CardManager::GetDistrictCardPile(){
-	return m_DistrictCardPile;
-}
-shared_ptr<CardPile<DistrictCard>> CardManager::GetDistrictCardDiscardPile(){
-	return m_DistrictCardDiscardPile;
-}
-shared_ptr<CardPile<CharacterCard>> CardManager::GetCharacterCardPile(){
-	return m_CharacterCardPile;
-}
-shared_ptr<CardPile<CharacterCard>> CardManager::GetCharacterCardDiscardPile(){
-	return m_CharacterCardDiscardPile;
-}
-
-std::string CardManager::CharacterEnumToString(eCharacterCard e){
-	return m_CharacterCardEnumToStringConversionMap[e];
-}
-
-CardManager::~CardManager()
-{
-}

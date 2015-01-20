@@ -1,7 +1,8 @@
 #include "CardReader.h"
 
-CardReader::CardReader(string filePath) {
-	m_FilePath = filePath;
+CardReader::CardReader(string filePath)
+{
+	m_sFilePath = filePath;
 	m_ColourMap["geel"] = yellow;
 	m_ColourMap["groen"] = green;
 	m_ColourMap["blauw"] = yellow;
@@ -9,8 +10,9 @@ CardReader::CardReader(string filePath) {
 	m_ColourMap["lila"] = purple;
 }
 
-void CardReader::parse() {
-	ifstream input(m_FilePath);
+void CardReader::parse()
+{
+	ifstream input(m_sFilePath);
 
 	for (string line; getline(input, line);) {
 		vector<string> result = split(line.c_str());
@@ -26,24 +28,17 @@ void CardReader::parse() {
 		int amount = atoi(result.at(3).c_str());
 
 		constructCard(name, costs, points, color, amount);
-
 	}
 }
 
-void CardReader::constructCard(string name, int costs, int points, string color, int amount) {
-	for (int i{ 0 }; i < amount; i++) {
+void CardReader::constructCard(string name, int costs, int points, string color, int amount)
+{
+	for (int i{ 0 }; i < amount; i++) 
+	{
 		shared_ptr < DistrictCard > newCard { new DistrictCard(name, costs, points, m_ColourMap[color])};
 		m_Cards.push_back(newCard);
 	}
-
 }
-
-vector<shared_ptr<DistrictCard>> CardReader::getCards() {
-
-	return m_Cards;
-}
-
-
 
 vector<string> CardReader::split(const char *str, char c)
 {

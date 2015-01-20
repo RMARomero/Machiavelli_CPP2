@@ -5,7 +5,8 @@ class InputManager
 {
 public:
 	InputManager();
-	std::string HandleInput(std::string input);
 	~InputManager();
+
+	std::string HandleInput(std::string input){	return input; }
 };
 

@@ -46,7 +46,7 @@ void RoundFinishedState::Handle(GameRunningState& context, GameManager& gm){
 		shared_ptr<Player> player = gm.GetPlayerList()->GetPlayerAt(i);
 
 		if (player->GetDistrictCardContainer()->Size() >= 8) {
-			gm.MarkGameAsFinished();
+			gm.FinishGame();
 			break;
 		}
 	}

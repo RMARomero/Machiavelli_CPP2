@@ -7,6 +7,17 @@
 
 class CardManager
 {
+public:
+	CardManager();
+	virtual ~CardManager(){}
+
+	shared_ptr<CardPile<DistrictCard>> GetDistrictCardPile(){ return m_DistrictCardPile;	}
+	shared_ptr<CardPile<DistrictCard>> GetDistrictCardDiscardPile(){ return m_DistrictCardDiscardPile; }
+	shared_ptr<CardPile<CharacterCard>> GetCharacterCardPile(){	return m_CharacterCardPile;	}
+	shared_ptr<CardPile<CharacterCard>> GetCharacterCardDiscardPile(){ return m_CharacterCardDiscardPile; }
+
+	std::string CharacterEnumToString(eCharacterCard e){ return m_CharacterCardEnumToStringConversionMap[e]; }
+
 private:
 	shared_ptr<CardPile<DistrictCard>> m_DistrictCardPile;
 	shared_ptr<CardPile<DistrictCard>> m_DistrictCardDiscardPile;
@@ -14,13 +25,5 @@ private:
 	shared_ptr<CardPile<CharacterCard>> m_CharacterCardDiscardPile;
 
 	map<eCharacterCard, std::string> m_CharacterCardEnumToStringConversionMap;
-public:
-	CardManager();
-	shared_ptr<CardPile<DistrictCard>> GetDistrictCardPile();
-	shared_ptr<CardPile<DistrictCard>> GetDistrictCardDiscardPile();
-	shared_ptr<CardPile<CharacterCard>> GetCharacterCardPile();
-	shared_ptr<CardPile<CharacterCard>> GetCharacterCardDiscardPile();
-	std::string CharacterEnumToString(eCharacterCard e);
-	virtual ~CardManager();
 };
 
