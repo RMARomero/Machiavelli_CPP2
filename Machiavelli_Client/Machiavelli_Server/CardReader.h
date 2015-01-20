@@ -19,10 +19,11 @@ public:
 	vector<shared_ptr<DistrictCard>> getCards();
 private:
 	vector<shared_ptr<DistrictCard>> m_Cards;
-	string m_FilePath;
 	map<string, CardColour> m_ColourMap;
 
+	string m_FilePath;
 
-	vector<string> split(const char *str, char c = ';');
-	void constructCard(string name, int costs, int points, string color, int amount);
+	void createCard(string name, int costs, int points, string color, int amount, bool special);
+	vector<string> split(const char *str, char c);
+	
 };
