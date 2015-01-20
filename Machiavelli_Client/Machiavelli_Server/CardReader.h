@@ -13,16 +13,18 @@ class CardReader
 {
 public:
 	CardReader(string filePath);
-	~CardReader(){}
+	virtual ~CardReader() {}
 
 	void parse();
-	vector<shared_ptr<DistrictCard>> getCards(){ return m_Cards; }
+	vector<shared_ptr<DistrictCard>> getCards() { return m_Cards; }
 
 private:
 	string m_sFilePath;
-	map<string, CardColour> m_ColourMap;
-	vector<string> split(const char *str, char c = ';');
-	vector<shared_ptr<DistrictCard>> m_Cards;
 
-	void constructCard(string name, int costs, int points, string color, int amount);
+	vector<shared_ptr<DistrictCard>> m_Cards;
+	map<string, CardColour> m_ColourMap;
+
+	vector<string> split(const char *str, char c);
+
+	void createCard(string name, int costs, int points, string color, int amount, bool special);
 };
