@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include <crtdbg.h>
-#include "GameLoop.h"
+#include "game.h"
 #include <memory>
 
 using namespace std;
@@ -11,8 +11,10 @@ using namespace std;
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	shared_ptr<GameLoop> loop{ new GameLoop() };
+	shared_ptr<game> loop{ new game() };
+
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
 	return 0;
 }
 
