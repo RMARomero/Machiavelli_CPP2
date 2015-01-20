@@ -1,15 +1,15 @@
 #include "ICard.h"
 
-
 ICard::ICard()
 {
 }
 
-
-string ICard::GetName(){
-	return m_Name;
-}
-
 ICard::~ICard()
 {
+
+}
+
+string ICard::getName()
+{
+	return m_Name;
 }

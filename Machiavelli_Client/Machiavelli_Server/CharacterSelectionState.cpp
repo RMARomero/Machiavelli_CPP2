@@ -32,7 +32,7 @@ void CharacterSelectionState::Handle(GameRunningState& context, GameManager& gm)
 		else{
 			vector<string> answers;
 			for (int i = 0; i < characterCardPile->Size(); i++){
-				answers.push_back(characterCardPile->At(i)->GetName());
+				answers.push_back(characterCardPile->At(i)->getName());
 			}
 			int result = currentPlayer->RequestInput("\nWhich card would you like to discard?", answers);
 			gm.GetCardManager()->GetCharacterCardDiscardPile()->Push_Back(characterCardPile->Take(result));
@@ -45,7 +45,7 @@ void CharacterSelectionState::Handle(GameRunningState& context, GameManager& gm)
 			for (int i = 0; i < pileSize; i++){
 				shared_ptr<ICard> card = characterCardPile->At(i);
 
-				answers.push_back(card->GetName());
+				answers.push_back(card->getName());
 			}
 			result = currentPlayer->RequestInput("\nWhich card would you like to keep?", answers);
 		}

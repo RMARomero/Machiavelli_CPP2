@@ -95,7 +95,7 @@ void IRoundState::Handle(GameRunningState& context, GameManager& gm){
 		if (answer == 0) {
 			for (int i{ 0 }; i < 2; i++) {
 				shared_ptr<DistrictCard> card = gm.GetCardManager()->GetDistrictCardPile()->Pop();
-				m_CurrentPlayer->Send("You picked a " + card->GetName());
+				m_CurrentPlayer->Send("You picked a " + card->getName());
 				m_CurrentPlayer->GetDistrictCardContainer()->Push_Back(card);
 			}
 		}
@@ -128,14 +128,14 @@ void IRoundState::PickDistrictCard(shared_ptr<CardPile<DistrictCard>> cp, int am
 		m_CurrentPlayer->Send("You have a library, so you can keep " + std::to_string(amount) + " cards");
 		for (auto &card : choices) {
 			m_CurrentPlayer->GetDistrictCardContainer()->Push_Back(card);
-			m_CurrentPlayer->Send("You picked a " + card->GetName());
+			m_CurrentPlayer->Send("You picked a " + card->getName());
 		}
 	}
 	else {
 		vector<string> answers;
 
 		for (auto &card : choices) {
-			answers.push_back(card->GetName());
+			answers.push_back(card->getName());
 		}
 
 		int result = m_CurrentPlayer->RequestInput("Which card would you like to keep?", answers);
@@ -144,7 +144,7 @@ void IRoundState::PickDistrictCard(shared_ptr<CardPile<DistrictCard>> cp, int am
 			if (card.get() == choices.at(result).get()) {
 
 				m_CurrentPlayer->GetDistrictCardContainer()->Push_Back(card);
-				m_CurrentPlayer->Send("You picked a " + card->GetName());
+				m_CurrentPlayer->Send("You picked a " + card->getName());
 			}
 			else {
 				cp->Push_Back(card);
@@ -174,7 +174,7 @@ void IRoundState::BuildSomething() {
 
 		shared_ptr<DistrictCard> card = m_CurrentPlayer->GetDistrictCardContainer()->At(i);
 
-		answers.push_back(card->GetName() + " - Price: " + std::to_string(card->getCost()));
+		answers.push_back(card->getName() + " - Price: " + std::to_string(card->getCost()));
 
 	}
 
@@ -189,7 +189,7 @@ void IRoundState::BuildSomething() {
 	else {
 		m_CurrentPlayer->SetGoldPieces(m_CurrentPlayer->GetGoldPieces() - cardToUse->getCost());
 		m_CurrentPlayer->GetCityCardContainer()->Push_Back(cardToUse);
-		m_CurrentPlayer->Send(cardToUse->GetName() + " has been added to your city!");
+		m_CurrentPlayer->Send(cardToUse->getName() + " has been added to your city!");
 	}
 
 }
