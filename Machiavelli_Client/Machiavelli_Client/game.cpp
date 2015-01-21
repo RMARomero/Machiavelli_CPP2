@@ -26,7 +26,8 @@ game::game()
 
 			if (cmd == "Bye!") 
 			{
-				break; //break the game loop, and end the connection
+				server->close();
+				//break; //break the game loop, and end the connection
 			}
 			else if (cmd == "input")
 			{
