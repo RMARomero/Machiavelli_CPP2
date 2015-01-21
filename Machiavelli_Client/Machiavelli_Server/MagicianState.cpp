@@ -42,11 +42,11 @@ void MagicianState::Handle(GameRunningState& context, GameManager& gm)
 
 		if (victim != m_CurrentPlayer)
 		{
-			vector<shared_ptr<DistrictCard>> victimPile = victim->GetDistrictCardContainer()->TakeCardDeck();
-			vector<shared_ptr<DistrictCard>> myPile = m_CurrentPlayer->GetDistrictCardContainer()->TakeCardDeck();
+			vector<shared_ptr<BuildingCard>> victimPile = victim->GetBuildingCardContainer()->TakeCardDeck();
+			vector<shared_ptr<BuildingCard>> myPile = m_CurrentPlayer->GetBuildingCardContainer()->TakeCardDeck();
 	
-			victim->GetDistrictCardContainer()->AddCardDeck(myPile);
-			m_CurrentPlayer->GetDistrictCardContainer()->AddCardDeck(victimPile);
+			victim->GetBuildingCardContainer()->AddCardDeck(myPile);
+			m_CurrentPlayer->GetBuildingCardContainer()->AddCardDeck(victimPile);
 
 			victim->Send("You have switched cards with " + m_CurrentPlayer->GetName());
 			m_CurrentPlayer->Send("You have switched cards with " + victim->GetName());
@@ -62,7 +62,7 @@ void MagicianState::Handle(GameRunningState& context, GameManager& gm)
 		break;
 	}
 	case 1:
-		if (m_CurrentPlayer->GetDistrictCardContainer()->size() <= 0) 
+		if (m_CurrentPlayer->GetBuildingCardContainer()->size() <= 0) 
 		{
 			m_CurrentPlayer->Send("You do not have any cards which you can return.");
 		}
@@ -74,25 +74,25 @@ void MagicianState::Handle(GameRunningState& context, GameManager& gm)
 			vector<string> choices;
 
 			do {
-				choices = m_CurrentPlayer->GetDistrictCardContainer()->to_vector();
+				choices = m_CurrentPlayer->GetBuildingCardContainer()->to_vector();
 				choices.push_back("I'm finished!");
 
 				answer = m_CurrentPlayer->RequestInput("Which cards would you like to dispose?", choices);
 
 				if (answer != choices.size() - 1) 
 				{
-					shared_ptr<DistrictCard> removedCard = m_CurrentPlayer->GetDistrictCardContainer()->take(answer);
-					gm.GetCardManager()->GetDistrictCardDiscardDeck()->push_back(removedCard);
+					shared_ptr<BuildingCard> removedCard = m_CurrentPlayer->GetBuildingCardContainer()->take(answer);
+					gm.GetCardManager()->GetBuildingCardDiscardDeck()->push_back(removedCard);
 
 					requestedCards++;
 				}
 			} while (answer != (choices.size() - 1));
 
-			int cardsToGive = min(requestedCards, gm.GetCardManager()->GetDistrictCardDeck()->size());
+			int cardsToGive = min(requestedCards, gm.GetCardManager()->GetBuildingCardDeck()->size());
 
 			for (int i{ 0 }; i < cardsToGive; i++) 
 			{
-				m_CurrentPlayer->GetDistrictCardContainer()->push_back(gm.GetCardManager()->GetDistrictCardDeck()->pop_back());
+				m_CurrentPlayer->GetBuildingCardContainer()->push_back(gm.GetCardManager()->GetBuildingCardDeck()->pop_back());
 			}
 
 			m_CurrentPlayer->Send("You received " + std::to_string(cardsToGive) + " new cards");

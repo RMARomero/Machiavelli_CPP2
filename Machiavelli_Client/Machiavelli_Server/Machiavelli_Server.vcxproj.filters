@@ -69,9 +69,6 @@
     <ClInclude Include="CharacterCard.h">
       <Filter>Header Files\Cards</Filter>
     </ClInclude>
-    <ClInclude Include="DistrictCard.h">
-      <Filter>Header Files\Cards</Filter>
-    </ClInclude>
     <ClInclude Include="ICard.h">
       <Filter>Header Files\Cards</Filter>
     </ClInclude>
@@ -166,6 +163,9 @@
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
     <ClInclude Include="CardDeck.h">
+      <Filter>Header Files\Cards</Filter>
+    </ClInclude>
+    <ClInclude Include="BuildingCard.h">
       <Filter>Header Files\Cards</Filter>
     </ClInclude>
   </ItemGroup>

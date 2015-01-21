@@ -4,8 +4,8 @@
 CardManager::CardManager()
 {
 	
-	m_DistrictCardDeck = shared_ptr<CardDeck<DistrictCard>> { new CardDeck<DistrictCard> };
-	m_DistrictCardDiscardDeck = shared_ptr<CardDeck<DistrictCard>> { new CardDeck<DistrictCard> };
+	m_BuildingCardDeck = shared_ptr<CardDeck<BuildingCard>> { new CardDeck<BuildingCard> };
+	m_BuildingCardDiscardDeck = shared_ptr<CardDeck<BuildingCard>> { new CardDeck<BuildingCard> };
 	m_CharacterCardDeck = shared_ptr<CardDeck<CharacterCard>> { new CardDeck<CharacterCard> };
 	m_CharacterCardDiscardDeck = shared_ptr<CardDeck<CharacterCard>> { new CardDeck<CharacterCard> };
 
@@ -42,6 +42,6 @@ CardManager::CardManager()
 	CardReader reader("district_cards.csv");
 	reader.parse();
 
-	m_DistrictCardDeck->AddCardDeck(reader.getCards());
+	m_BuildingCardDeck->AddCardDeck(reader.getCards());
 }
 

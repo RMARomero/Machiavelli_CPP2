@@ -22,7 +22,7 @@ void IRoundState::Handle(GameRunningState& context, GameManager& gm)
 		return;
 	}
 
-	RefillDistrictCardDeckIfDepleted(gm.GetCardManager(), DISTRICT_CARD_DEPLETION_THRESHOLD);
+	RefillBuildingCardDeckIfDepleted(gm.GetCardManager(), DISTRICT_CARD_DEPLETION_THRESHOLD);
 
 	m_CurrentPlayer->ShowStats();
 
@@ -51,21 +51,21 @@ void IRoundState::Handle(GameRunningState& context, GameManager& gm)
 		case 1:
 		{
 			// rekening houden met een lege stapel!
-			shared_ptr<CardDeck<DistrictCard>> cp = gm.GetCardManager()->GetDistrictCardDeck();
+			shared_ptr<CardDeck<BuildingCard>> cp = gm.GetCardManager()->GetBuildingCardDeck();
 
 			if (m_CurrentPlayer->GetCityCardContainer()->HasCard("Observatorium")) 
 			{
-				PickDistrictCard(cp,3);
+				PickBuildingCard(cp,3);
 			}
 			else 
 			{
-				PickDistrictCard(cp, 2);
+				PickBuildingCard(cp, 2);
 			}
 			break;
 		}
 	}
 
-	if (m_CurrentPlayer->GetDistrictCardContainer()->size() > 0) 
+	if (m_CurrentPlayer->GetBuildingCardContainer()->size() > 0) 
 	{
 		int result = m_CurrentPlayer->RequestInput("Would you like to build something?", vector < string > {"Yes", "No"});
 
@@ -75,17 +75,17 @@ void IRoundState::Handle(GameRunningState& context, GameManager& gm)
 		BuildSomething();
 	}
 
-	if (m_CurrentPlayer->GetCityCardContainer()->HasCard("Laboratorium") && m_CurrentPlayer->GetDistrictCardContainer()->size() >= 1) 
+	if (m_CurrentPlayer->GetCityCardContainer()->HasCard("Laboratorium") && m_CurrentPlayer->GetBuildingCardContainer()->size() >= 1) 
 	{
 		int result = m_CurrentPlayer->RequestInput("Would you like to make use of your special ability to return one of your cards?", vector < string > {"Yes", "No"});
 
 		if (result == 1)
 			return;
 
-		int cardIndex = m_CurrentPlayer->RequestInput("Which card would you like to return?", m_CurrentPlayer->GetDistrictCardContainer()->to_vector());
+		int cardIndex = m_CurrentPlayer->RequestInput("Which card would you like to return?", m_CurrentPlayer->GetBuildingCardContainer()->to_vector());
 
-		shared_ptr<DistrictCard> card = m_CurrentPlayer->GetDistrictCardContainer()->take(cardIndex);
-		gm.GetCardManager()->GetDistrictCardDiscardDeck()->push_back(card);
+		shared_ptr<BuildingCard> card = m_CurrentPlayer->GetBuildingCardContainer()->take(cardIndex);
+		gm.GetCardManager()->GetBuildingCardDiscardDeck()->push_back(card);
 
 		m_CurrentPlayer->GiveGoldPieces(1);
 	}
@@ -98,9 +98,9 @@ void IRoundState::Handle(GameRunningState& context, GameManager& gm)
 		{
 			for (int i{ 0 }; i < 2; i++) 
 			{
-				shared_ptr<DistrictCard> card = gm.GetCardManager()->GetDistrictCardDeck()->pop_back();
+				shared_ptr<BuildingCard> card = gm.GetCardManager()->GetBuildingCardDeck()->pop_back();
 				m_CurrentPlayer->Send("You picked a " + card->getName());
-				m_CurrentPlayer->GetDistrictCardContainer()->push_back(card);
+				m_CurrentPlayer->GetBuildingCardContainer()->push_back(card);
 			}
 		}
 	}
@@ -113,7 +113,7 @@ void IRoundState::Handle(GameRunningState& context, GameManager& gm)
 }
 
 
-void IRoundState::PickDistrictCard(shared_ptr<CardDeck<DistrictCard>> cp, int amount) 
+void IRoundState::PickBuildingCard(shared_ptr<CardDeck<BuildingCard>> cp, int amount) 
 {
 	if (cp->size() <= 0) 
 	{
@@ -122,7 +122,7 @@ void IRoundState::PickDistrictCard(shared_ptr<CardDeck<DistrictCard>> cp, int am
 	}
 
 	int options = min(cp->size(), amount);
-	vector<shared_ptr<DistrictCard>> choices;
+	vector<shared_ptr<BuildingCard>> choices;
 
 	for (int i{ 0 }; i < options; i++) 
 	{
@@ -134,7 +134,7 @@ void IRoundState::PickDistrictCard(shared_ptr<CardDeck<DistrictCard>> cp, int am
 		m_CurrentPlayer->Send("You have a library, so you can keep " + std::to_string(amount) + " cards");
 		for (auto &card : choices) 
 		{
-			m_CurrentPlayer->GetDistrictCardContainer()->push_back(card);
+			m_CurrentPlayer->GetBuildingCardContainer()->push_back(card);
 			m_CurrentPlayer->Send("You picked a " + card->getName());
 		}
 	}
@@ -144,7 +144,27 @@ void IRoundState::PickDistrictCard(shared_ptr<CardDeck<DistrictCard>> cp, int am
 
 		for (auto &card : choices) 
 		{
-			answers.push_back(card->getName());
+			CardColour col = card->getColour();
+			string colour{ "" };
+			switch (col)
+			{
+			case purple:
+				colour = "purple";
+				break;
+			case yellow:
+				colour = "yellow";
+				break;
+			case red:
+				colour = "red";
+				break;
+			case blue:
+				colour = "blue";
+				break;
+			case green:
+				colour = "green";
+				break;
+			}
+			answers.push_back(card->getName() +" <"+colour+">");
 		}
 
 		int result = m_CurrentPlayer->RequestInput("Which card would you like to keep?", answers);
@@ -153,7 +173,7 @@ void IRoundState::PickDistrictCard(shared_ptr<CardDeck<DistrictCard>> cp, int am
 		{
 			if (card.get() == choices.at(result).get()) 
 			{
-				m_CurrentPlayer->GetDistrictCardContainer()->push_back(card);
+				m_CurrentPlayer->GetBuildingCardContainer()->push_back(card);
 				m_CurrentPlayer->Send("You picked a " + card->getName());
 			}
 			else 
@@ -164,16 +184,16 @@ void IRoundState::PickDistrictCard(shared_ptr<CardDeck<DistrictCard>> cp, int am
 	}
 }
 
-void IRoundState::RefillDistrictCardDeckIfDepleted(shared_ptr<CardManager> cm, int threshold) 
+void IRoundState::RefillBuildingCardDeckIfDepleted(shared_ptr<CardManager> cm, int threshold) 
 {
-	if (cm->GetDistrictCardDeck()->size() < threshold) 
+	if (cm->GetBuildingCardDeck()->size() < threshold) 
 	{
 		for (int i{ 0 }; i < cm->GetCharacterCardDiscardDeck()->size(); i++) 
 		{
-			cm->GetDistrictCardDeck()->push_back(cm->GetDistrictCardDiscardDeck()->pop_back());
+			cm->GetBuildingCardDeck()->push_back(cm->GetBuildingCardDiscardDeck()->pop_back());
 		}
 
-		cm->GetDistrictCardDeck()->shuffle();
+		cm->GetBuildingCardDeck()->shuffle();
 	}
 }
 
@@ -183,19 +203,40 @@ void IRoundState::BuildSomething()
 
 	vector<string> answers;
 
-	for (int i{ 0 }; i < m_CurrentPlayer->GetDistrictCardContainer()->size(); i++) 
+	for (int i{ 0 }; i < m_CurrentPlayer->GetBuildingCardContainer()->size(); i++) 
 	{
-		shared_ptr<DistrictCard> card = m_CurrentPlayer->GetDistrictCardContainer()->at(i);
+		shared_ptr<BuildingCard> card = m_CurrentPlayer->GetBuildingCardContainer()->at(i);
 
-		answers.push_back(card->getName() + " - Price: " + std::to_string(card->getCost()));
+		CardColour col = card->getColour();
+		string colour{ "" };
+		switch (col)
+		{
+		case purple:
+			colour = "purple";
+			break;
+		case yellow:
+			colour = "yellow";
+			break;
+		case red:
+			colour = "red";
+			break;
+		case blue:
+			colour = "blue";
+			break;
+		case green:
+			colour = "green";
+			break;
+		}
+
+		answers.push_back(card->getName() + " - Price: " + std::to_string(card->getCost()) + " - Colour: " + colour);
 	}
 
 	int result2 = m_CurrentPlayer->RequestInput("What do you want to build? [wallet: " + std::to_string(wallet) + "gp]", answers);
-	shared_ptr<DistrictCard> cardToUse = m_CurrentPlayer->GetDistrictCardContainer()->take(result2);
+	shared_ptr<BuildingCard> cardToUse = m_CurrentPlayer->GetBuildingCardContainer()->take(result2);
 
 	if (cardToUse->getCost() > wallet)
 	{
-		m_CurrentPlayer->GetDistrictCardContainer()->push_back(cardToUse);
+		m_CurrentPlayer->GetBuildingCardContainer()->push_back(cardToUse);
 		m_CurrentPlayer->Send("Whoops, you do not have enough money!");
 	}
 	else 

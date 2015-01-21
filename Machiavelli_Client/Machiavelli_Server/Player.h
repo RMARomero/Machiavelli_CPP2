@@ -7,7 +7,7 @@
 
 #include "CardDeck.h"
 #include "CharacterCard.h"
-#include "DistrictCard.h"
+#include "BuildingCard.h"
 
 using std::vector;
 using std::shared_ptr;
@@ -21,8 +21,8 @@ public:
 	virtual ~Player(){}
 
 	shared_ptr<CardDeck<CharacterCard>> GetCharacterCardContainer();
-	shared_ptr<CardDeck<DistrictCard>> GetDistrictCardContainer();
-	shared_ptr<CardDeck<DistrictCard>> GetCityCardContainer();
+	shared_ptr<CardDeck<BuildingCard>> GetBuildingCardContainer();
+	shared_ptr<CardDeck<BuildingCard>> GetCityCardContainer();
 	bool HasCharacterCard(eCharacterCard role);
 
 	string GetName();
@@ -46,8 +46,8 @@ private:
 	int m_GoldPieces{ 0 };
 	shared_ptr<Socket> m_Socket;
 	shared_ptr<CardDeck<CharacterCard>> m_CharacterCards = shared_ptr<CardDeck<CharacterCard>> { new CardDeck<CharacterCard> };
-	shared_ptr<CardDeck<DistrictCard>> m_DistrictCards = shared_ptr<CardDeck<DistrictCard>> { new CardDeck<DistrictCard> };
-	shared_ptr<CardDeck<DistrictCard>> m_City = shared_ptr<CardDeck<DistrictCard>> { new CardDeck<DistrictCard> };
+	shared_ptr<CardDeck<BuildingCard>> m_BuildingCards = shared_ptr<CardDeck<BuildingCard>> { new CardDeck<BuildingCard> };
+	shared_ptr<CardDeck<BuildingCard>> m_City = shared_ptr<CardDeck<BuildingCard>> { new CardDeck<BuildingCard> };
 
 	bool ValidateAnswer(string input, vector<string> expectedAnswers);
 

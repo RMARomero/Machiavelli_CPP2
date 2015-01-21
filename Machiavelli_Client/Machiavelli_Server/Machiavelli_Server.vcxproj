@@ -88,7 +88,7 @@
     <ClInclude Include="CharacterCard.h" />
     <ClInclude Include="CharacterSelectionState.h" />
     <ClInclude Include="ClientCommand.h" />
-    <ClInclude Include="DistrictCard.h" />
+    <ClInclude Include="BuildingCard.h" />
     <ClInclude Include="FinishedState.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameRunningState.h" />

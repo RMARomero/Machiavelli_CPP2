@@ -45,7 +45,7 @@ void WarlordState::Handle(GameRunningState& context, GameManager& gm)
 
 	for (int i{ 0 }; i < choosenVictim->GetCityCardContainer()->size(); i++) 
 	{
-		shared_ptr<DistrictCard> card = choosenVictim->GetCityCardContainer()->at(i);
+		shared_ptr<BuildingCard> card = choosenVictim->GetCityCardContainer()->at(i);
 
 		destroyables.push_back(card->getName() + " costs to destroy: " + std::to_string(card->getCost() - 1));
 	}
@@ -54,7 +54,7 @@ void WarlordState::Handle(GameRunningState& context, GameManager& gm)
 	{
 		int choice = m_CurrentPlayer->RequestInput("Which building would you like to destroy? [my wallet: " + std::to_string(m_CurrentPlayer->GetGoldPieces()) + "]", destroyables);
 
-		shared_ptr<DistrictCard> removedCard = choosenVictim->GetCityCardContainer()->take(choice);
+		shared_ptr<BuildingCard> removedCard = choosenVictim->GetCityCardContainer()->take(choice);
 
 		if (removedCard->getCost() - 1 > m_CurrentPlayer->GetGoldPieces() || removedCard->getName() == "Kerker") 
 		{
@@ -70,18 +70,18 @@ void WarlordState::Handle(GameRunningState& context, GameManager& gm)
 
 				if (action == 0) 
 				{
-					choosenVictim->GetDistrictCardContainer()->push_back(removedCard);
+					choosenVictim->GetBuildingCardContainer()->push_back(removedCard);
 					choosenVictim->Send("The card has been added to your stock pile");
 				}
 				else 
 				{
-					gm.GetCardManager()->GetDistrictCardDiscardDeck()->push_back(removedCard);
+					gm.GetCardManager()->GetBuildingCardDiscardDeck()->push_back(removedCard);
 				}
 
 			}
 			else 
 			{
-				gm.GetCardManager()->GetDistrictCardDiscardDeck()->push_back(removedCard);
+				gm.GetCardManager()->GetBuildingCardDiscardDeck()->push_back(removedCard);
 				choosenVictim->Send("You building " + removedCard->getName() + " has been destroyed by " + m_CurrentPlayer->GetName());
 			}
 		

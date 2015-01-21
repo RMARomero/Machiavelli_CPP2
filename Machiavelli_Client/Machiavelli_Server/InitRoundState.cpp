@@ -10,20 +10,20 @@ InitRoundState::InitRoundState()
 
 void InitRoundState::Handle(GameRunningState& context, GameManager& gm)
 {
-	gm.GetCardManager()->GetDistrictCardDeck()->shuffle();
+	gm.GetCardManager()->GetBuildingCardDeck()->shuffle();
 
 	for (int i{ 0 }; i < gm.GetPlayerList()->Size(); i++) {
 		shared_ptr<Player> player = gm.GetPlayerList()->GetPlayerAt(i);
 
 		player->GiveGoldPieces(2);
 
-		GiveDistrictCardsFromDeck(player, gm.GetCardManager()->GetDistrictCardDeck(), 4);
+		GiveBuildingCardsFromDeck(player, gm.GetCardManager()->GetBuildingCardDeck(), 4);
 	}
 
 	context.setState(shared_ptr < IRoundState > {new CharacterSelectionState});
 }
 
-void InitRoundState::GiveDistrictCardsFromDeck(shared_ptr<Player> to, shared_ptr<CardDeck<DistrictCard>> pile, int amount)
+void InitRoundState::GiveBuildingCardsFromDeck(shared_ptr<Player> to, shared_ptr<CardDeck<BuildingCard>> pile, int amount)
 {
 	if (pile->size() < amount)
 	{
@@ -33,7 +33,7 @@ void InitRoundState::GiveDistrictCardsFromDeck(shared_ptr<Player> to, shared_ptr
 
 	for (int i{ 0 }; i < amount; i++)
 	{
-		to->GetDistrictCardContainer()->push_back(pile->pop_back());
+		to->GetBuildingCardContainer()->push_back(pile->pop_back());
 	}
 	to->Send("You have been given " + std::to_string(amount) + " district cards");
 }

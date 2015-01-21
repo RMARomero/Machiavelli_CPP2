@@ -38,7 +38,7 @@ void CardReader::createCard(string name, int costs, int points, string color, in
 {
 	for (int i{ 0 }; i < amount; i++) 
 	{
-		shared_ptr < DistrictCard > newCard { new DistrictCard(name, costs, points, m_ColourMap[color])};
+		shared_ptr < BuildingCard > newCard { new BuildingCard(name, costs, points, m_ColourMap[color])};
 		m_Cards.push_back(newCard);
 	}
 }

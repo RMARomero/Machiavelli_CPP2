@@ -3,11 +3,11 @@
 
 enum CardColour { purple, yellow, red, blue, green };
 
-class DistrictCard : public ICard
+class BuildingCard : public ICard
 {
 public:
-	DistrictCard(string name, int cost, int points, CardColour colour);
-	virtual ~DistrictCard();
+	BuildingCard(string name, int cost, int points, CardColour colour);
+	virtual ~BuildingCard(){}
 
 	int getCost();
 

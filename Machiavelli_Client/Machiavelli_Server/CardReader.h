@@ -1,4 +1,4 @@
-#include "DistrictCard.h"
+#include "BuildingCard.h"
 #include <fstream>
 #include <map>
 #include <vector>
@@ -16,12 +16,12 @@ public:
 	virtual ~CardReader() {}
 
 	void parse();
-	vector<shared_ptr<DistrictCard>> getCards() { return m_Cards; }
+	vector<shared_ptr<BuildingCard>> getCards() { return m_Cards; }
 
 private:
 	string m_sFilePath;
 
-	vector<shared_ptr<DistrictCard>> m_Cards;
+	vector<shared_ptr<BuildingCard>> m_Cards;
 	map<string, CardColour> m_ColourMap;
 
 	vector<string> split(const char *str, char c);

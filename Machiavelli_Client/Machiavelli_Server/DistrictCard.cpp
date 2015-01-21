@@ -1,6 +1,6 @@
-#include "DistrictCard.h"
+#include "BuildingCard.h"
 
-DistrictCard::DistrictCard(string name, int cost, int points, CardColour colour)
+BuildingCard::BuildingCard(string name, int cost, int points, CardColour colour)
 {
 	m_Name = name;
 	m_Cost = cost;
@@ -8,16 +8,12 @@ DistrictCard::DistrictCard(string name, int cost, int points, CardColour colour)
 	m_Colour = colour;
 }
 
-DistrictCard::~DistrictCard()
-{
-}
-
-int DistrictCard::getCost()
+int BuildingCard::getCost()
 {
 	return m_Cost;
 }
 
-CardColour DistrictCard::getColour()
+CardColour BuildingCard::getColour()
 {
 	return m_Colour;
 }

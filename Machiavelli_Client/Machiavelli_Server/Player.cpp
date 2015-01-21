@@ -13,11 +13,11 @@ Player::Player(shared_ptr<Socket> socket)
 shared_ptr<CardDeck<CharacterCard>> Player::GetCharacterCardContainer(){
 	return m_CharacterCards;//TODO
 }
-shared_ptr<CardDeck<DistrictCard>> Player::GetDistrictCardContainer(){
-	return m_DistrictCards;//TODO
+shared_ptr<CardDeck<BuildingCard>> Player::GetBuildingCardContainer(){
+	return m_BuildingCards;//TODO
 }
 
-shared_ptr<CardDeck<DistrictCard>> Player::GetCityCardContainer() {
+shared_ptr<CardDeck<BuildingCard>> Player::GetCityCardContainer() {
 	return m_City;
 }
 
@@ -159,10 +159,10 @@ void Player::ShowStats() {
 		output += " - " + GetCityCardContainer()->at(i)->getName() + "\n";
 	}
 
-	output += "\n\n > DistrictCards < \n";
+	output += "\n\n > BuildingCards < \n";
 
-	for (int i{ 0 }; i < GetDistrictCardContainer()->size(); i++) {
-		output += " - " + GetDistrictCardContainer()->at(i)->getName() + "\n";
+	for (int i{ 0 }; i < GetBuildingCardContainer()->size(); i++) {
+		output += " - " + GetBuildingCardContainer()->at(i)->getName() + "\n";
 	}
 
 	output += "\n\n > Characters < \n";

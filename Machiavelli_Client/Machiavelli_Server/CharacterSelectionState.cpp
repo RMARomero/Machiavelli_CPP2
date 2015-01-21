@@ -8,7 +8,8 @@ CharacterSelectionState::CharacterSelectionState()
 	printf("Character Selection State\n");
 }
 
-void CharacterSelectionState::Handle(GameRunningState& context, GameManager& gm){
+void CharacterSelectionState::Handle(GameRunningState& context, GameManager& gm)
+{
 	gm.GetCardManager()->GetCharacterCardDeck()->shuffle();
 
 	//gm.GetCardManager()->GetCharacterCardPile()->Pop();
@@ -26,39 +27,40 @@ void CharacterSelectionState::Handle(GameRunningState& context, GameManager& gm)
 		shared_ptr<Player> currentPlayer = gm.GetPlayerList()->GetPlayerAt(i % AmountOfPlayers);
 		gm.GetPlayerList()->SendAllBut(currentPlayer, "\n" + currentPlayer->GetName() + " is picking a Character Card, please wait...\n");
 
-		shared_ptr<CardDeck<CharacterCard>> characterCardPile = gm.GetCardManager()->GetCharacterCardDeck();
+		shared_ptr<CardDeck<CharacterCard>> characterCardDeck = gm.GetCardManager()->GetCharacterCardDeck();
 		if (i == 0) 
 		{
-			gm.GetCardManager()->GetCharacterCardDiscardDeck()->push_back(characterCardPile->pop_back());
+			gm.GetCardManager()->GetCharacterCardDiscardDeck()->push_back(characterCardDeck->pop_back());
 		}
 		else
 		{
 			vector<string> answers;
-			for (int i = 0; i < characterCardPile->size(); i++)
+			for (int i = 0; i < characterCardDeck->size(); i++)
 			{
-				answers.push_back(characterCardPile->at(i)->getName());
+				answers.push_back(characterCardDeck->at(i)->getName());
 			}
 			int result = currentPlayer->RequestInput("\nWhich card would you like to discard?", answers);
-			gm.GetCardManager()->GetCharacterCardDiscardDeck()->push_back(characterCardPile->take(result));
+			gm.GetCardManager()->GetCharacterCardDiscardDeck()->push_back(characterCardDeck->take(result));
 		}
 
 		vector<string> answers;
-		int pileSize = characterCardPile->size();
+		int pileSize = characterCardDeck->size();
 		int result = 0;
 		if (pileSize > 1)
 		{
 			for (int i = 0; i < pileSize; i++)
 			{
-				shared_ptr<ICard> card = characterCardPile->at(i);
+				shared_ptr<ICard> card = characterCardDeck->at(i);
 				answers.push_back(card->getName());
 			}
 			result = currentPlayer->RequestInput("\nWhich card would you like to keep?", answers);
 		}
 		else
 		{
-			//Maybe a message, that you automatically got the last card.. but w/e, doubt its needed
+			string cname = characterCardDeck->at(0)->getName();
+			currentPlayer->Send("\nYou took the remaining card <" +cname+ ">");
 		}
-		currentPlayer->GetCharacterCardContainer()->push_back(characterCardPile->take(result));
+		currentPlayer->GetCharacterCardContainer()->push_back(characterCardDeck->take(result));
 		i++;
 	}
 	context.setState(shared_ptr < IRoundState > {new AssassinState});
