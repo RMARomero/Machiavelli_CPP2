@@ -2,6 +2,7 @@
 #include "GameManager.h"
 #include "GameRunningState.h"
 #include "CharacterSelectionState.h"
+
 RoundFinishedState::RoundFinishedState()
 {
 	printf("Round Finished State\n");
@@ -19,12 +20,12 @@ RoundFinishedState::RoundFinishedState()
 
 void RoundFinishedState::Handle(GameRunningState& context, GameManager& gm)
 {
-	// discarded rounds terughalen
+	//Get past rounds
 	vector<shared_ptr<CharacterCard>> discardedPile = gm.GetCardManager()->GetCharacterCardDiscardDeck()->TakeCardDeck();
 	gm.GetCardManager()->GetCharacterCardDeck()->AddCardDeck(discardedPile);
 
-	// karakterkaarten van iedereen afpakken en terug op de standaardlijst
-	for (int i{ 0 }; i < gm.GetPlayerList()->Size(); i++) 
+	//take role cards and put them back
+	for (int i = 0; i < gm.GetPlayerList()->Size(); i++) 
 	{
 		vector<shared_ptr<CharacterCard>> pile = gm.GetPlayerList()->GetPlayerAt(i)->GetCharacterCardContainer()->TakeCardDeck();
 
@@ -34,12 +35,11 @@ void RoundFinishedState::Handle(GameRunningState& context, GameManager& gm)
 		}
 	}
 
-	// Afzien van iemand te doden of stelen als het niet gelukt is
 	gm.setKilled(NotSet);
 	gm.setRobbed(NotSet);
 
 
-	// Has the game been finished?
+	//check to see if someone won
 	for (int i{ 0 }; i < gm.GetPlayerList()->Size(); i++) 
 	{
 		shared_ptr<Player> player = gm.GetPlayerList()->GetPlayerAt(i);
@@ -54,7 +54,6 @@ void RoundFinishedState::Handle(GameRunningState& context, GameManager& gm)
 
 	if (!gm.IsGameFinished()) 
 	{
-		// dit niet doen als de game gefinished is, obviously!
-		context.setState(shared_ptr < IRoundState > { new CharacterSelectionState});
+		context.setState(shared_ptr<IRoundState> { new CharacterSelectionState});
 	}
 }

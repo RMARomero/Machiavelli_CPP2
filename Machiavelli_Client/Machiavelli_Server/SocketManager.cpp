@@ -13,9 +13,10 @@
 #include <exception>
 #include <memory>
 
-//#include "SyncedQueue.h"
-
 using namespace std;
+
+void initLoop(shared_ptr<GameManager> gm);
+void handle_client(Socket* socket, shared_ptr<GameManager> gm);
 
 SocketManager& SocketManager::getInstance()
 {
@@ -23,7 +24,61 @@ SocketManager& SocketManager::getInstance()
 	return instance;
 }
 
-void Start_GameLoop(shared_ptr<GameManager> gm)
+void SocketManager::storeServerInformation()
+{
+	/*m_IP = "127.1.0.0";
+	m_Portnumber = 8765;*/
+	std::string ip;
+	const string textfile("config.txt");
+	// input file stream, opent textfile voor lezen
+	ifstream input_file(textfile);
+	input_file >> m_iPort;
+}
+
+void SocketManager::start()
+{
+	/*
+	std::string ip;
+	const string textfile("config.txt");
+	// input file stream, opent textfile voor lezen
+	ifstream input_file(textfile);
+	input_file >> m_iPort;
+	*/
+	storeServerInformation();
+
+	std::shared_ptr<GameManager> gm{ new GameManager };
+
+	// start command consumer thread
+	thread consumer{ initLoop, gm };
+	consumer.detach(); // detaching is usually ugly, but in this case the right thing to do
+
+	// create a server socket
+	ServerSocket server(m_iPort);
+
+	while (true) 
+	{
+		try 
+		{
+			// wait for connection from client; will create new socket
+			cerr << "server listening" << '\n';
+			Socket* client = nullptr;
+
+			while ((client = server.accept()) != nullptr) 
+			{
+				// communicate with client over new socket in separate thread
+				thread handler{ handle_client, client, gm };
+				handler.detach(); // detaching is usually ugly, but in this case the right thing to do
+				cerr << "server listening again" << '\n';
+			}
+		}
+		catch (const exception& ex) 
+		{
+			cerr << ex.what() << ", resuming..." << '\n';
+		}
+	}
+}
+
+void initLoop(shared_ptr<GameManager> gm)
 {
 	gm->GameLoop();
 }
@@ -42,79 +97,40 @@ void handle_client(Socket* socket, shared_ptr<GameManager> gm) // this function 
 	// Check if the game is already in progress...
 	//If in progress:
 	/* Tell the player he missed the train... return method (and thus end thread and close connection) */
-	
+
 	//If not in progress:
 	player->Send("\nLet's wait until all players are ready! To quit, type 'quit'.\n");
 	player->SetName(name);
 
 	gm->GetPlayerList()->InsertPlayer(player);
 
-	while (true) { // game loop
-		try {
+	while (true)
+	{
+		try
+		{
 			// read first line of request
 			string cmd = client->readline();
 			cerr << "client (" << client->get() << ") said: " << cmd << '\n';
 
-			if (cmd == "quit") {
+			if (cmd == "quit")  //exit the application
+			{
 				player->Send("Bye!\n");
-				//client->write(socketexample::prompt);
-				break; // out of game loop, will end this thread and close connection
+				break;
 			}
 
 			ClientCommand command{ cmd, player, client };
 			SocketManager::getInstance().queue.put(command);
 
 		}
-		catch (const exception& ex) {
+		catch (const exception& ex)
+		{
 			player->Send("ERROR: ");
 			player->Send(ex.what());
 			player->Send("\n");
 		}
-		catch (...) {
+		catch (...)
+		{
 			player->Send("ERROR: something went wrong during handling of your request. Sorry!\n");
-		}
-	}
-}
-
-void SocketManager::getServerInformation()
-{
-	std::string ip;
-	const string textfile("config.txt");
-	// input file stream, opent textfile voor lezen
-	ifstream input_file(textfile);
-	input_file >> m_iPort;
-
-}
-
-void SocketManager::start()
-{
-	getServerInformation();
-
-	std::shared_ptr < GameManager > gm{ new GameManager };
-
-	// start command consumer thread
-	thread consumer{ Start_GameLoop, gm };
-	consumer.detach(); // detaching is usually ugly, but in this case the right thing to do
-
-	// create a server socket
-	ServerSocket server(m_iPort);
-
-	while (true) {
-		try {
-			// wait for connection from client; will create new socket
-			cerr << "server listening" << '\n';
-			Socket* client = nullptr;
-
-			while ((client = server.accept()) != nullptr) 
-			{
-				// communicate with client over new socket in separate thread
-				thread handler{ handle_client, client, gm };
-				handler.detach(); // detaching is usually ugly, but in this case the right thing to do
-				cerr << "server listening again" << '\n';
-			}
-		}
-		catch (const exception& ex) {
-			cerr << ex.what() << ", resuming..." << '\n';
 		}
 	}
 }

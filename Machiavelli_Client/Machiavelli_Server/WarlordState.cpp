@@ -20,24 +20,25 @@ void WarlordState::Handle(GameRunningState& context, GameManager& gm)
 	m_CurrentPlayer->GiveGPForCards(red);
 	
 	vector<string> victims;
-	for (int i{ 0 }; i < gm.GetPlayerList()->Size(); i++) {
+	for (int i{ 0 }; i < gm.GetPlayerList()->Size(); i++) 
+	{
 		victims.push_back(gm.GetPlayerList()->GetPlayerAt(i)->GetName());
 	}
 
-	int result = m_CurrentPlayer->RequestInput("Which player's city would you like to attack?", victims);
+	int result = m_CurrentPlayer->RequestInput("Select which player's buildings you would like to target.", victims);
 
 	shared_ptr<Player> choosenVictim = gm.GetPlayerList()->GetPlayerAt(result);
 
 	if (choosenVictim.get() == m_CurrentPlayer.get()) 
 	{
-		m_CurrentPlayer->Send("It might be wise not to attack your own city, don't you think?");
+		m_CurrentPlayer->Send("You cannot attack yourself.");
 		return;
 	}
 
 	if (choosenVictim->HasCharacterCard(Bishop)) 
 	{
-		m_CurrentPlayer->Send("You should not attack bishops! ");
-		context.setState(unique_ptr < IRoundState > {new RoundFinishedState});
+		m_CurrentPlayer->Send("You cannot attack the bishop.");
+		context.setState(unique_ptr <IRoundState> {new RoundFinishedState});
 		return;
 	}
 
@@ -52,7 +53,7 @@ void WarlordState::Handle(GameRunningState& context, GameManager& gm)
 
 	if (!destroyables.empty()) 
 	{
-		int choice = m_CurrentPlayer->RequestInput("Which building would you like to destroy? [my wallet: " + std::to_string(m_CurrentPlayer->GetGoldPieces()) + "]", destroyables);
+		int choice = m_CurrentPlayer->RequestInput("Select which building you want to destroy. You currently have: " + std::to_string(m_CurrentPlayer->GetGoldPieces()) + " gold", destroyables);
 
 		shared_ptr<BuildingCard> removedCard = choosenVictim->GetCityCardContainer()->take(choice);
 
@@ -71,7 +72,7 @@ void WarlordState::Handle(GameRunningState& context, GameManager& gm)
 				if (action == 0) 
 				{
 					choosenVictim->GetBuildingCardContainer()->push_back(removedCard);
-					choosenVictim->Send("The card has been added to your stock pile");
+					choosenVictim->Send("The card has been added to your card pile");
 				}
 				else 
 				{
@@ -86,12 +87,12 @@ void WarlordState::Handle(GameRunningState& context, GameManager& gm)
 			}
 		
 			m_CurrentPlayer->SetGoldPieces(m_CurrentPlayer->GetGoldPieces() - (removedCard->getCost() - 1));
-			m_CurrentPlayer->Send("Building succesfully destroyed!");
+			m_CurrentPlayer->Send("Building destroyed!");
 		}
 	}
 	else 
 	{
-		m_CurrentPlayer->Send("Nothing to destroy. gg");
+		m_CurrentPlayer->Send("There is nothing to destroy.");
 	}
 	context.setState(unique_ptr < IRoundState > {new RoundFinishedState});
 }

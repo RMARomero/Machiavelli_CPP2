@@ -1,7 +1,7 @@
 #pragma once
 #include "IRoundState.h"
-class CharacterSelectionState :
-	public IRoundState
+
+class CharacterSelectionState :	public IRoundState
 {
 public:
 	CharacterSelectionState();

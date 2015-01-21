@@ -33,19 +33,19 @@ void IRoundState::Handle(GameRunningState& context, GameManager& gm)
 		m_CurrentPlayer->SetGoldPieces(0);
 		thief->GiveGoldPieces(loot);
 
-		thief->Send("Your illegally obtained loot is " + std::to_string(loot) + "gp");
-		m_CurrentPlayer->Send("You have been robbed and lost all your gp (If you had any :P)");
+		thief->Send("Your stolen goods are " + std::to_string(loot) + "gold");
+		m_CurrentPlayer->Send("You have been robbed and lost all your gold");
 	}
 
-	vector<string> answers = { "Receive 2 goldpieces", "Receive district card" };
-	int result = m_CurrentPlayer->RequestInput("What do you want to do?", answers);
+	vector<string> answers = { "Receive 2 gold", "Receive building card" };
+	int result = m_CurrentPlayer->RequestInput("Please select one.", answers);
 
 	switch (result) 
 	{
 		case 0:
 		{
 			m_CurrentPlayer->GiveGoldPieces(2);
-			m_CurrentPlayer->Send("You receive 2 goldpieces.");
+			m_CurrentPlayer->Send("You receive 2 gold.");
 			break;
 		}
 		case 1:
@@ -117,7 +117,7 @@ void IRoundState::PickBuildingCard(shared_ptr<CardDeck<BuildingCard>> cp, int am
 {
 	if (cp->size() <= 0) 
 	{
-		m_CurrentPlayer->Send("Sorry, district card pile is empty. You receive nothing. #getRekt");
+		m_CurrentPlayer->Send("Sorry, building card pile is empty. You receive nothing.");
 		return;
 	}
 

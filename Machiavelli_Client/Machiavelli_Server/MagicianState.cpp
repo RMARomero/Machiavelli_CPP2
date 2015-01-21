@@ -17,19 +17,19 @@ void MagicianState::Handle(GameRunningState& context, GameManager& gm)
 		context.setState(unique_ptr < IRoundState > {new KingState});
 		return;
 	}
-	vector<string> answers = { "Switch Cards with player", "Dispose of cards & get district cards" };
+	vector<string> answers = { "Switch cards with another player", "Dispose of cards & get district cards" };
 	int result = m_CurrentPlayer->RequestInput("Make a choice, Magician:", answers);
 
-	switch (result) {
+	switch (result) 
+	{
 	case 0:
 	{
-		// Tja, je bent ook dom als je met jezelf gaat switchen... >.<
 		vector<string> playerList;
-		for (int i{ 0 }; i < gm.GetPlayerList()->Size(); i++) 
+		for (int i = 0; i < gm.GetPlayerList()->Size(); i++) 
 		{
-			if (gm.GetPlayerList()->GetPlayerAt(i) == m_CurrentPlayer) //Quickfix to make it clear who you are...
+			if (gm.GetPlayerList()->GetPlayerAt(i) == m_CurrentPlayer) //swicthing with yourself...
 			{
-				playerList.push_back(gm.GetPlayerList()->GetPlayerAt(i)->GetName() + " -> This would be yourself...");
+				playerList.push_back(gm.GetPlayerList()->GetPlayerAt(i)->GetName() + "\t (This is you)");
 			}
 			else
 			{
@@ -37,7 +37,7 @@ void MagicianState::Handle(GameRunningState& context, GameManager& gm)
 			}
 		}
 
-		int playerPos = m_CurrentPlayer->RequestInput("Who's cards would you like?", playerList);
+		int playerPos = m_CurrentPlayer->RequestInput("Select a player who's card you would like.", playerList);
 		shared_ptr<Player> victim = gm.GetPlayerList()->GetPlayerAt(playerPos);
 
 		if (victim != m_CurrentPlayer)
@@ -53,31 +53,32 @@ void MagicianState::Handle(GameRunningState& context, GameManager& gm)
 		}
 		else
 		{
-			m_CurrentPlayer->Send("\nUhm.. Trading with yourself eh? ... \nLet's pretend this never happened and continue, shall we?");
+			m_CurrentPlayer->Send("\nYou cannot switch with yourself.");
 		}
 
 
-		context.setState(shared_ptr < IRoundState > { new KingState });
+		context.setState(shared_ptr<IRoundState> { new KingState });
 
 		break;
 	}
 	case 1:
 		if (m_CurrentPlayer->GetBuildingCardContainer()->size() <= 0) 
 		{
-			m_CurrentPlayer->Send("You do not have any cards which you can return.");
+			m_CurrentPlayer->Send("You do not posses any cards which you can return.");
 		}
 		else 
 		{
 			
-			int requestedCards{ 0 };
-			int answer{ -1 };
+			int requestedCards = 0;
+			int answer = -1;
 			vector<string> choices;
 
-			do {
+			do 
+			{
 				choices = m_CurrentPlayer->GetBuildingCardContainer()->to_vector();
 				choices.push_back("I'm finished!");
 
-				answer = m_CurrentPlayer->RequestInput("Which cards would you like to dispose?", choices);
+				answer = m_CurrentPlayer->RequestInput("Choose which cards you want to discard.", choices);
 
 				if (answer != choices.size() - 1) 
 				{
@@ -97,7 +98,7 @@ void MagicianState::Handle(GameRunningState& context, GameManager& gm)
 
 			m_CurrentPlayer->Send("You received " + std::to_string(cardsToGive) + " new cards");
 		}
-		context.setState(shared_ptr < IRoundState > { new KingState });
+		context.setState(shared_ptr<IRoundState> { new KingState });
 		break;
 	}
 

@@ -14,12 +14,12 @@ void MerchantState::Handle(GameRunningState& context, GameManager& gm)
 
 	if (m_CurrentPlayer.get() == nullptr || gm.isKilled(currentRole())) 
 	{
-		context.setState(unique_ptr < IRoundState > {new ArchitectState});
+		context.setState(unique_ptr<IRoundState> {new ArchitectState});
 		return;
 	}
 
 	m_CurrentPlayer->GiveGoldPieces(1);
 	m_CurrentPlayer->GiveGPForCards(green);
 
-	context.setState(unique_ptr < IRoundState > {new ArchitectState});
+	context.setState(unique_ptr<IRoundState> {new ArchitectState});
 }

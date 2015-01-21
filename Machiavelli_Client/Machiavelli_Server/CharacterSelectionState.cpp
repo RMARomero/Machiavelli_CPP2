@@ -14,10 +14,8 @@ void CharacterSelectionState::Handle(GameRunningState& context, GameManager& gm)
 
 	//gm.GetCardManager()->GetCharacterCardPile()->Pop();
 
-	string newRoundLine1 = "\n-----------------------------------------------------\n";
-	string newRoundLine2 =   "--------------------- NEW ROUND ---------------------\n";
-	string newRoundLine3 =   "-----------------------------------------------------";
-	gm.GetPlayerList()->SendAll(newRoundLine1 + newRoundLine2 + newRoundLine3);
+	string newRoundln = "\n\t== Machiavelli: New Round started! ==\n";
+	gm.GetPlayerList()->SendAll(newRoundln);
 
 	int AmountOfPlayers = gm.GetPlayerList()->Size();
 
@@ -25,7 +23,7 @@ void CharacterSelectionState::Handle(GameRunningState& context, GameManager& gm)
 	while (gm.GetCardManager()->GetCharacterCardDeck()->size() > 1)
 	{
 		shared_ptr<Player> currentPlayer = gm.GetPlayerList()->GetPlayerAt(i % AmountOfPlayers);
-		gm.GetPlayerList()->SendAllBut(currentPlayer, "\n" + currentPlayer->GetName() + " is picking a Character Card, please wait...\n");
+		gm.GetPlayerList()->SendAllBut(currentPlayer, "\n" + currentPlayer->GetName() + " is busy picking a character.\n");
 
 		shared_ptr<CardDeck<CharacterCard>> characterCardDeck = gm.GetCardManager()->GetCharacterCardDeck();
 		if (i == 0) 

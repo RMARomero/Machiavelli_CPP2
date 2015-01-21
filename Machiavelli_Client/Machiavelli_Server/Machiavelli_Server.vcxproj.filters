@@ -262,5 +262,8 @@
     <None Include="district_cards.csv">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="karakterkaarten.csv">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
