@@ -25,9 +25,6 @@ public:
 	void MoveToFront(shared_ptr<Player> player);
 
 	int Size(){	return m_PlayerList.size(); }
-
-
-
 private:
 	vector<shared_ptr<Player>> m_PlayerList;
 	vector<shared_ptr<int>> m_Temp;
