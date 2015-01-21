@@ -71,7 +71,7 @@ void WarlordState::Handle(GameRunningState& context, GameManager& gm)
 
 				if (action == 0) 
 				{
-					choosenVictim->GetDistrictCardContainer()->Push_Back(removedCard);
+					choosenVictim->GetBuildingCardContainer()->push_back(removedCard);
 					choosenVictim->Send("The card has been added to your card pile");
 				}
 				else 

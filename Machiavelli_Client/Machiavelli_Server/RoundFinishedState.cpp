@@ -21,8 +21,8 @@ RoundFinishedState::RoundFinishedState()
 void RoundFinishedState::Handle(GameRunningState& context, GameManager& gm)
 {
 	//Get past rounds
-	vector<shared_ptr<CharacterCard>> discardedPile = gm.GetCardManager()->GetCharacterCardDiscardPile()->TakeCardPile();
-	gm.GetCardManager()->GetCharacterCardPile()->AddCardPile(discardedPile);
+	vector<shared_ptr<CharacterCard>> discardedPile = gm.GetCardManager()->GetCharacterCardDiscardDeck()->TakeCardDeck();
+	gm.GetCardManager()->GetCharacterCardDeck()->AddCardDeck(discardedPile);
 
 	//take role cards and put them back
 	for (int i = 0; i < gm.GetPlayerList()->Size(); i++) 

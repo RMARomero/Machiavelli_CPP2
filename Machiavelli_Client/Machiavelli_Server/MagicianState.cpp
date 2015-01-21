@@ -75,7 +75,7 @@ void MagicianState::Handle(GameRunningState& context, GameManager& gm)
 
 			do 
 			{
-				choices = m_CurrentPlayer->GetDistrictCardContainer()->ToVector();
+				choices = m_CurrentPlayer->GetBuildingCardContainer()->to_vector();
 				choices.push_back("I'm finished!");
 
 				answer = m_CurrentPlayer->RequestInput("Choose which cards you want to discard.", choices);
