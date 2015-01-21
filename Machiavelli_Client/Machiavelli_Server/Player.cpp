@@ -4,52 +4,18 @@
 #include "SocketManager.h"
 using std::exception;
 
-
-Player::Player(shared_ptr<Socket> socket)
+bool Player::HasCharacterCard(eCharacterCard role)
 {
-	m_Socket = (socket);
-}
-
-shared_ptr<CardDeck<CharacterCard>> Player::GetCharacterCardContainer(){
-	return m_CharacterCards;//TODO
-}
-shared_ptr<CardDeck<BuildingCard>> Player::GetBuildingCardContainer(){
-	return m_BuildingCards;//TODO
-}
-
-shared_ptr<CardDeck<BuildingCard>> Player::GetCityCardContainer() {
-	return m_City;
-}
-
-
-bool Player::HasCharacterCard(eCharacterCard role){
 	bool found = false;
-	for (int i = 0; i < m_CharacterCards->size() && !found; i++){
+	for (int i = 0; i < m_CharacterCards->size() && !found; i++)
+	{
 		found = m_CharacterCards->GetCardDeck().at(i)->GetEnum() == role;
 	}
 	return found;
 }
 
-
-
-void Player::SetName(string name){
-	m_Name = name;
-}
-string Player::GetName(){
-	return m_Name;
-}
-
-void Player::Send(string message){
-	m_Socket->write(message + "\n");
-}
-
-void Player::AllowInput(){
-	m_Socket->write(GET_PLAYER_INPUT);
-}
-
-
-bool Player::ValidateAnswer(string input, vector<string> expectedAnswers){
-
+bool Player::ValidateAnswer(string input, vector<string> expectedAnswers)
+{
 	try {
 		int position = stoi(input);
 		return position >= 0 && position < expectedAnswers.size();
@@ -59,13 +25,15 @@ bool Player::ValidateAnswer(string input, vector<string> expectedAnswers){
 	}
 
 }
+
 string Player::RequestInput(string question)
 {
 	AllowInput();
 	return GetPlayerInput();
 }
 
-int Player::RequestInput(string question, vector<string> expectedAnswers){
+int Player::RequestInput(string question, vector<string> expectedAnswers)
+{
 	string output = question.append("\n");
 	for (int i = 0; i < expectedAnswers.size(); i++){
 		output.append(" [");
@@ -97,7 +65,6 @@ string Player::GetPlayerInput()
 
 					return command.get_cmd();
 				}
-				//PlayerInput.put(client.get()->get(), command.get_cmd());
 			}
 			catch (const exception& ex) {
 				client->write("Sorry, ");
@@ -107,49 +74,40 @@ string Player::GetPlayerInput()
 			catch (...) {
 				client->write("Sorry, something went wrong during handling of your request.\n");
 			}
-			//client->write(socketexample::prompt);
 		}
 		else {
 			std::cerr << "trying to handle command for client who has disappeared...\n";
 		}
 	}
-
 }
 
-void Player::GiveGoldPieces(int amount) {
-	m_GoldPieces += amount;
-}
-
-void Player::SetGoldPieces(int amount) {
-	m_GoldPieces = amount;
-}
-
-int Player::GetGoldPieces() {
-	return m_GoldPieces;
-}
-
-void Player::GiveGPForCards(CardColour colour) {
-
+void Player::GiveGPForCards(CardColour colour)
+{
 	int cardCount{ 0 };
 
-	for (int i{ 0 }; i < GetCityCardContainer()->size(); i++) {
-		if (GetCityCardContainer()->at(i)->getColour() == colour) {
+	for (int i{ 0 }; i < GetCityCardContainer()->size(); i++)
+	{
+		if (GetCityCardContainer()->at(i)->getColour() == colour)
+		{
 			cardCount++;
 		}
 	}
 
-	if (GetCityCardContainer()->HasCard("School voor magiërs")) {
+	if (GetCityCardContainer()->HasCard("School voor magiers"))
+	{
 		cardCount++;
 	}
 
-	if (cardCount > 0) {
-		Send("You have received additional goldpieces because of your cards! Bonus GP: " + std::to_string(cardCount));
+	if (cardCount > 0)
+	{
+		Send("You have received additional goldpieces because of the buildings in your city! Bonus GP: " + std::to_string(cardCount));
 		GiveGoldPieces(cardCount);
 
 	}
 }
 
-void Player::ShowStats() {
+void Player::ShowStats()
+{
 	string output = "\n";
 	output += " ==== STATS ====\n";
 

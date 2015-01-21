@@ -39,7 +39,10 @@ CardManager::CardManager()
 	m_CharacterCardDeck->push_back(Architect);
 	m_CharacterCardDeck->push_back(Warlord);
 
-	CardReader reader("district_cards.csv");
+	m_CharacterCardDeck->shuffle();
+
+	CardReader reader("building_cards.csv");// move this above to parse characters
+	reader.setFilePath("building_cards.csv");
 	reader.parse();
 
 	m_BuildingCardDeck->AddCardDeck(reader.getCards());

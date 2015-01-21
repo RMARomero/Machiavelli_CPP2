@@ -16,6 +16,9 @@ public:
 	virtual ~CardReader() {}
 
 	void parse();
+	void parseCharacters();
+
+	void setFilePath(string filePath);
 	vector<shared_ptr<BuildingCard>> getCards() { return m_Cards; }
 
 private:
