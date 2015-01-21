@@ -1,6 +1,11 @@
 #include "SocketManager.h"
 #include "InputManager.h"
 
+#include "Socket.h"
+#include "Sync_queue.h"
+#include "ClientCommand.h"
+#include "GameManager.h"
+
 #include <thread>
 #include <iostream>
 #include <fstream>
@@ -12,14 +17,11 @@
 
 using namespace std;
 
-
-#include "Socket.h"
-#include "Sync_queue.h"
-#include "ClientCommand.h"
-
-#include "GameManager.h"
-
-
+SocketManager& SocketManager::getInstance()
+{
+	static SocketManager instance;
+	return instance;
+}
 
 void Start_GameLoop(shared_ptr<GameManager> gm)
 {
@@ -31,8 +33,8 @@ void handle_client(Socket* socket, shared_ptr<GameManager> gm) // this function 
 	shared_ptr<Socket> client{ socket };
 	shared_ptr<Player> player{ new Player(client) };
 
-	/* Get Player Name: */
-	player->Send("Welcome to the fancy game Citadels! What is your name?\n");
+	// Recieve players and ask for their names
+	player->Send("Welcome to the Machiavelli! Please enter your name?\n");
 	player->AllowInput();
 	string name = client->readline();
 
@@ -42,7 +44,7 @@ void handle_client(Socket* socket, shared_ptr<GameManager> gm) // this function 
 	/* Tell the player he missed the train... return method (and thus end thread and close connection) */
 	
 	//If not in progress:
-	player->Send("\nLet's wait untill all players are ready! To quit, type 'quit'.\n");
+	player->Send("\nLet's wait until all players are ready! To quit, type 'quit'.\n");
 	player->SetName(name);
 
 	gm->GetPlayerList()->InsertPlayer(player);
@@ -74,33 +76,18 @@ void handle_client(Socket* socket, shared_ptr<GameManager> gm) // this function 
 	}
 }
 
-SocketManager::SocketManager()
+void SocketManager::getServerInformation()
 {
-	
-}
-
-
-SocketManager::~SocketManager()
-{
-
-}
-
-SocketManager & SocketManager::getInstance() {
-	static SocketManager instance;
-	return instance;
-}
-
-
-void SocketManager::getServerInformation(){
 	std::string ip;
 	const string textfile("config.txt");
 	// input file stream, opent textfile voor lezen
 	ifstream input_file(textfile);
-	input_file >> m_Port;
+	input_file >> m_iPort;
 
 }
 
-void SocketManager::start() {
+void SocketManager::start()
+{
 	getServerInformation();
 
 	std::shared_ptr < GameManager > gm{ new GameManager };
@@ -109,11 +96,8 @@ void SocketManager::start() {
 	thread consumer{ Start_GameLoop, gm };
 	consumer.detach(); // detaching is usually ugly, but in this case the right thing to do
 
-
-
-
 	// create a server socket
-	ServerSocket server(m_Port);
+	ServerSocket server(m_iPort);
 
 	while (true) {
 		try {
@@ -121,7 +105,8 @@ void SocketManager::start() {
 			cerr << "server listening" << '\n';
 			Socket* client = nullptr;
 
-			while ((client = server.accept()) != nullptr) {
+			while ((client = server.accept()) != nullptr) 
+			{
 				// communicate with client over new socket in separate thread
 				thread handler{ handle_client, client, gm };
 				handler.detach(); // detaching is usually ugly, but in this case the right thing to do
