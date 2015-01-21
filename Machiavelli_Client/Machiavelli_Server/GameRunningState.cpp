@@ -5,7 +5,8 @@
 
 GameRunningState::GameRunningState()
 {
-	m_CurrentRound = shared_ptr<IRoundState> {new InitRoundState};
+	m_CurrentRoundState = shared_ptr<IRoundState> {new InitRoundState};
+	//m_CurrentRound = new InitRoundState();
 }
 
 void GameRunningState::Handle(GameManager& gm)
@@ -14,11 +15,11 @@ void GameRunningState::Handle(GameManager& gm)
 
 	while (true)
 	{
-		m_CurrentRound->Handle(*this, gm);
+		m_CurrentRoundState->Handle(*this, gm);
 	}
 }
 
 void GameRunningState::setState(shared_ptr<IRoundState> roundState)
 {
-	m_CurrentRound = roundState;
+	m_CurrentRoundState = roundState;
 }

@@ -11,6 +11,6 @@ public:
 	void Handle(GameManager& gm);
 	void setState(shared_ptr<IRoundState> roundState);
 private:
-	shared_ptr<IRoundState> m_CurrentRound;
+	shared_ptr<IRoundState> m_CurrentRoundState;
 };
 

@@ -115,7 +115,10 @@ void handle_client(Socket* socket, shared_ptr<GameManager> gm) // this function 
 			if (cmd == "quit")  //exit the application
 			{
 				player->Send("Bye!\n");
-				break;
+				gm->GetPlayerList()->RemovePlayer(player);
+				gm->GetPlayerList()->SendAll("Your opponent: " + player->GetName() + " left. You are the winner!\n");
+				client->close();
+				//break;
 			}
 
 			ClientCommand command{ cmd, player, client };
