@@ -191,9 +191,6 @@
     <ClCompile Include="CharacterSelectionState.cpp">
       <Filter>Source Files\States\RoundState</Filter>
     </ClCompile>
-    <ClCompile Include="DistrictCard.cpp">
-      <Filter>Source Files\Cards</Filter>
-    </ClCompile>
     <ClCompile Include="FinishedState.cpp">
       <Filter>Source Files\States\GameState</Filter>
     </ClCompile>
@@ -256,6 +253,9 @@
     </ClCompile>
     <ClCompile Include="SocketManager.cpp">
       <Filter>Source Files\Socket</Filter>
+    </ClCompile>
+    <ClCompile Include="BuildingCard.cpp">
+      <Filter>Source Files\Cards</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
