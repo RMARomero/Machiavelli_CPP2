@@ -4,14 +4,22 @@
 #include "RoundFinishedState.h"
 #include "MerchantState.h"
 #include "GameManager.h"
+
+
 BishopState::BishopState()
 {
 	printf("Bishop State\n");
 }
 
-void BishopState::Handle(GameRunningState& context, GameManager& gm){
+BishopState::~BishopState()
+{
+}
+
+void BishopState::Handle(GameRunningState& context, GameManager& gm)
+{
 	IRoundState::Handle(context, gm);
-	if (m_CurrentPlayer.get() == nullptr || gm.isKilled(currentRole())) {
+	if (m_CurrentPlayer.get() == nullptr || gm.isKilled(currentRole())) 
+	{
 		context.setState(unique_ptr < IRoundState > {new MerchantState});
 		return;
 	}
@@ -19,11 +27,8 @@ void BishopState::Handle(GameRunningState& context, GameManager& gm){
 	context.setState(unique_ptr < IRoundState > {new MerchantState});
 }
 
-eCharacterCard BishopState::currentRole() {
+eCharacterCard BishopState::currentRole() 
+{
 	return Bishop;
 }
 
-
-BishopState::~BishopState()
-{
-}

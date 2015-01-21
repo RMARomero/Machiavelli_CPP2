@@ -2,12 +2,14 @@
 #include "GameManager.h"
 #include "GameRunningState.h"
 #include "CharacterSelectionState.h"
+
 InitRoundState::InitRoundState()
 {
 	printf("InitRound State\n");
 }
 
-void InitRoundState::Handle(GameRunningState& context, GameManager& gm){
+void InitRoundState::Handle(GameRunningState& context, GameManager& gm)
+{
 	gm.GetCardManager()->GetDistrictCardPile()->Shuffle();
 
 	for (int i{ 0 }; i < gm.GetPlayerList()->Size(); i++) {
@@ -18,19 +20,19 @@ void InitRoundState::Handle(GameRunningState& context, GameManager& gm){
 		GiveDistrictCardsFromPile(player, gm.GetCardManager()->GetDistrictCardPile(), 4);
 	}
 
-
 	context.setState(shared_ptr < IRoundState > {new CharacterSelectionState});
-
 }
 
-void InitRoundState::GiveDistrictCardsFromPile(shared_ptr<Player> to, shared_ptr<CardPile<DistrictCard>> pile, int amount) {
-	if (pile->Size() < amount) {
+void InitRoundState::GiveDistrictCardsFromPile(shared_ptr<Player> to, shared_ptr<CardPile<DistrictCard>> pile, int amount)
+{
+	if (pile->Size() < amount) 
+	{
 		printf("Card stock depleted. gg\n");
 		return;
 	}
 
-	for (int i{ 0 }; i < amount; i++) {
-
+	for (int i{ 0 }; i < amount; i++) 
+	{
 		to->GetDistrictCardContainer()->Push_Back(pile->Pop());
 	}
 
