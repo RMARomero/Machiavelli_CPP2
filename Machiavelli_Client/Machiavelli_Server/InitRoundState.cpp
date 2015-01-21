@@ -12,7 +12,8 @@ void InitRoundState::Handle(GameRunningState& context, GameManager& gm)
 {
 	gm.GetCardManager()->GetDistrictCardPile()->Shuffle();
 
-	for (int i{ 0 }; i < gm.GetPlayerList()->Size(); i++) {
+	for (int i = 0; i < gm.GetPlayerList()->Size(); i++) 
+	{
 		shared_ptr<Player> player = gm.GetPlayerList()->GetPlayerAt(i);
 
 		player->GiveGoldPieces(2);
@@ -27,15 +28,15 @@ void InitRoundState::GiveDistrictCardsFromPile(shared_ptr<Player> to, shared_ptr
 {
 	if (pile->Size() < amount) 
 	{
-		printf("Card stock depleted. gg\n");
+		printf("Card stock is currently empty.\n");
 		return;
 	}
 
-	for (int i{ 0 }; i < amount; i++) 
+	for (int i = 0; i < amount; i++) 
 	{
 		to->GetDistrictCardContainer()->Push_Back(pile->Pop());
 	}
 
-	to->Send("You have been given " + std::to_string(amount) + " district cards");
+	to->Send("You have receieved " + std::to_string(amount) + " building cards");
 }
 

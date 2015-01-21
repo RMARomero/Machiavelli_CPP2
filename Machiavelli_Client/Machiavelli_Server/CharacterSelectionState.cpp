@@ -18,10 +18,8 @@ void CharacterSelectionState::Handle(GameRunningState& context, GameManager& gm)
 
 	//gm.GetCardManager()->GetCharacterCardPile()->Pop();
 
-	string newRoundLine1 = "\n-----------------------------------------------------\n";
-	string newRoundLine2 =   "--------------------- NEW ROUND ---------------------\n";
-	string newRoundLine3 =   "-----------------------------------------------------";
-	gm.GetPlayerList()->SendAll(newRoundLine1 + newRoundLine2 + newRoundLine3);
+	string newRoundln = "\n\t== Machiavelli: New Round started! ==\n";
+	gm.GetPlayerList()->SendAll(newRoundln);
 
 	int AmountOfPlayers = gm.GetPlayerList()->Size();
 
@@ -29,7 +27,7 @@ void CharacterSelectionState::Handle(GameRunningState& context, GameManager& gm)
 	while (gm.GetCardManager()->GetCharacterCardPile()->Size() > 1)
 	{
 		shared_ptr<Player> currentPlayer = gm.GetPlayerList()->GetPlayerAt(i % AmountOfPlayers);
-		gm.GetPlayerList()->SendAllBut(currentPlayer, "\n" + currentPlayer->GetName() + " is picking a Character Card, please wait...\n");
+		gm.GetPlayerList()->SendAllBut(currentPlayer, "\n" + currentPlayer->GetName() + " is busy picking a character.\n");
 
 		shared_ptr<CardPile<CharacterCard>> characterCardPile = gm.GetCardManager()->GetCharacterCardPile();
 		if (i == 0) 
@@ -60,10 +58,7 @@ void CharacterSelectionState::Handle(GameRunningState& context, GameManager& gm)
 			}
 			result = currentPlayer->RequestInput("\nWhich card would you like to keep?", answers);
 		}
-		else
-		{
-			//Maybe a message, that you automatically got the last card.. but w/e, doubt its needed
-		}
+
 		currentPlayer->GetCharacterCardContainer()->Push_Back(characterCardPile->Take(result));
 		i++;
 	}

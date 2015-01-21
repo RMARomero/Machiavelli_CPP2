@@ -20,11 +20,11 @@ void BishopState::Handle(GameRunningState& context, GameManager& gm)
 	IRoundState::Handle(context, gm);
 	if (m_CurrentPlayer.get() == nullptr || gm.isKilled(currentRole())) 
 	{
-		context.setState(unique_ptr < IRoundState > {new MerchantState});
+		context.setState(unique_ptr<IRoundState> {new MerchantState});
 		return;
 	}
 	m_CurrentPlayer->GiveGPForCards(blue);
-	context.setState(unique_ptr < IRoundState > {new MerchantState});
+	context.setState(unique_ptr<IRoundState> {new MerchantState});
 }
 
 eCharacterCard BishopState::currentRole() 

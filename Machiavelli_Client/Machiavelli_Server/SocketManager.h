@@ -15,7 +15,7 @@ public:
 	virtual ~SocketManager(){}
 private:
 	int m_iPort;
-	void getServerInformation();
+	void storeServerInformation();
 	SocketManager(){}
 	SocketManager(const SocketManager&);
 	SocketManager& operator=(const SocketManager&);
