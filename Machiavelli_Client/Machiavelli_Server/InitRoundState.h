@@ -1,13 +1,15 @@
 #pragma once
 #include "IRoundState.h"
-class InitRoundState :
-	public IRoundState
+
+class InitRoundState :	public IRoundState
 {
-private:
-	void GiveDistrictCardsFromDeck(shared_ptr<Player> to, shared_ptr<CardDeck<DistrictCard>> pile, int amount);
 public:
 	InitRoundState();
+	virtual ~InitRoundState() {};
+
 	void Handle(GameRunningState& context, GameManager& gm);
 	eCharacterCard currentRole() { return eCharacterCard(0); }
+private:
+	void GiveDistrictCardsFromPile(shared_ptr<Player> to, shared_ptr<CardPile<DistrictCard>> pile, int amount);
 };
 

@@ -16,7 +16,6 @@ void IRoundState::Handle(GameRunningState& context, GameManager& gm)
 		gm.GetPlayerList()->SendAll("\n" + gm.GetCardManager()->CharacterEnumToString(currentRole()) + "'s turn, please wait...\n");
 	}
 
-
 	if (m_CurrentPlayer == nullptr || gm.isKilled(currentRole())) 
 	{
 		gm.GetPlayerList()->SendAll("Hmm... nothing happened.");
@@ -26,7 +25,6 @@ void IRoundState::Handle(GameRunningState& context, GameManager& gm)
 	RefillDistrictCardDeckIfDepleted(gm.GetCardManager(), DISTRICT_CARD_DEPLETION_THRESHOLD);
 
 	m_CurrentPlayer->ShowStats();
-
 
 	if (gm.isRobbed(currentRole())) 
 	{
@@ -59,7 +57,8 @@ void IRoundState::Handle(GameRunningState& context, GameManager& gm)
 			{
 				PickDistrictCard(cp,3);
 			}
-			else {
+			else 
+			{
 				PickDistrictCard(cp, 2);
 			}
 			break;
@@ -68,14 +67,12 @@ void IRoundState::Handle(GameRunningState& context, GameManager& gm)
 
 	if (m_CurrentPlayer->GetDistrictCardContainer()->size() > 0) 
 	{
-	
 		int result = m_CurrentPlayer->RequestInput("Would you like to build something?", vector < string > {"Yes", "No"});
 
 		if (result == 1)
 			return;
 
 		BuildSomething();
-
 	}
 
 	if (m_CurrentPlayer->GetCityCardContainer()->HasCard("Laboratorium") && m_CurrentPlayer->GetDistrictCardContainer()->size() >= 1) 
