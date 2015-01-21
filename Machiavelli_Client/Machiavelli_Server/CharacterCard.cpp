@@ -5,12 +5,3 @@ CharacterCard::CharacterCard(string name, eCharacterCard characterEnum): m_Enum(
 {
 	m_Name = name;
 }
-
-
-eCharacterCard CharacterCard::GetEnum(){
-	return m_Enum;
-}
-
-CharacterCard::~CharacterCard()
-{
-}
