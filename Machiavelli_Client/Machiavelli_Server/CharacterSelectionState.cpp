@@ -21,22 +21,22 @@ void CharacterSelectionState::Handle(GameRunningState& context, GameManager& gm)
 	int AmountOfPlayers = gm.GetPlayerList()->Size();
 
 	int i = 0;
-	while (gm.GetCardManager()->GetCharacterCardPile()->Size() > 1)
+	while (gm.GetCardManager()->GetCharacterCardDeck()->size() > 1)
 	{
 		shared_ptr<Player> currentPlayer = gm.GetPlayerList()->GetPlayerAt(i % AmountOfPlayers);
 		gm.GetPlayerList()->SendAllBut(currentPlayer, "\n" + currentPlayer->GetName() + " is picking a Character Card, please wait...\n");
 
-		shared_ptr<CardPile<CharacterCard>> characterCardPile = gm.GetCardManager()->GetCharacterCardPile();
+		shared_ptr<CardDeck<CharacterCard>> characterCardPile = gm.GetCardManager()->GetCharacterCardDeck();
 		if (i == 0) 
 		{
-			gm.GetCardManager()->GetCharacterCardDiscardPile()->Push_Back(characterCardPile->Pop());
+			gm.GetCardManager()->GetCharacterCardDiscardDeck()->push_back(characterCardPile->pop_back());
 		}
 		else
 		{
 			vector<string> answers;
-			for (int i = 0; i < characterCardPile->Size(); i++)
+			for (int i = 0; i < characterCardPile->size(); i++)
 			{
-				answers.push_back(characterCardPile->At(i)->getName());
+				answers.push_back(characterCardPile->at(i)->getName());
 			}
 			int result = currentPlayer->RequestInput("\nWhich card would you like to discard?", answers);
 			gm.GetCardManager()->GetCharacterCardDiscardDeck()->push_back(characterCardPile->take(result));
