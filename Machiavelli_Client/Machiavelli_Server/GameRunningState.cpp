@@ -5,12 +5,12 @@
 
 GameRunningState::GameRunningState()
 {
-	m_CurrentRound = shared_ptr < IRoundState > {new InitRoundState};
+	m_CurrentRound = shared_ptr<IRoundState> {new InitRoundState};
 }
 
 void GameRunningState::Handle(GameManager& gm)
 {
-	gm.GetPlayerList()->SendAll("Everyone seems ready! Happy Citadels Game, and may the odds be ever in your favor!");
+	gm.GetPlayerList()->SendAll("We are ready to begin. Goodluck and have fun!\n");
 
 	while (true)
 	{

@@ -18,14 +18,14 @@ void ThiefState::Handle(GameRunningState& context, GameManager& gm)
 		return;
 	}
 
-	vector<string> answers = { "Magican", "King", "Bishop", "Merchant", "Architect", "Warlord" };
-	int result = m_CurrentPlayer->RequestInput("Which character would you like to rob?", answers);
+	vector<string> answers = { "Magician", "King", "Bishop", "Merchant", "Architect", "Warlord" };
+	int result = m_CurrentPlayer->RequestInput("Please select a character to rob.", answers);
 
 	gm.setRobbed(eCharacterCard(result + 2));
 
 	m_CurrentPlayer->Send("You robbed the " + answers.at(result) + "\n");
 
-	context.setState(unique_ptr < IRoundState > {new MagicianState});
+	context.setState(unique_ptr<IRoundState> {new MagicianState});
 }
 
 
