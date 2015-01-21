@@ -66,9 +66,6 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CardPile.h">
-      <Filter>Header Files\Cards</Filter>
-    </ClInclude>
     <ClInclude Include="CharacterCard.h">
       <Filter>Header Files\Cards</Filter>
     </ClInclude>
@@ -167,6 +164,9 @@
     </ClInclude>
     <ClInclude Include="throw.h">
       <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="CardDeck.h">
+      <Filter>Header Files\Cards</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

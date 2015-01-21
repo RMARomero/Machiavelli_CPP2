@@ -4,7 +4,7 @@ class InitRoundState :
 	public IRoundState
 {
 private:
-	void GiveDistrictCardsFromPile(shared_ptr<Player> to, shared_ptr<CardPile<DistrictCard>> pile, int amount);
+	void GiveDistrictCardsFromDeck(shared_ptr<Player> to, shared_ptr<CardDeck<DistrictCard>> pile, int amount);
 public:
 	InitRoundState();
 	void Handle(GameRunningState& context, GameManager& gm);

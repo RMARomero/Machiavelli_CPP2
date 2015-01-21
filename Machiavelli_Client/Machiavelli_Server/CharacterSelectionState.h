@@ -5,8 +5,8 @@ class CharacterSelectionState :
 {
 public:
 	CharacterSelectionState();
+	virtual ~CharacterSelectionState(){}
 	void Handle(GameRunningState& context, GameManager& gm);
-	virtual ~CharacterSelectionState();
 	eCharacterCard currentRole() { return eCharacterCard(0); }
 };
 

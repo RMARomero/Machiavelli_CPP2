@@ -22,8 +22,8 @@ public:
 
 protected:
 	shared_ptr<Player> m_CurrentPlayer;
-	virtual void PickDistrictCard(shared_ptr<CardPile<DistrictCard>> cp, int amount);
+	virtual void PickDistrictCard(shared_ptr<CardDeck<DistrictCard>> cp, int amount);
 	virtual void BuildSomething();
-	void RefillDistrictCardPileIfDepleted(shared_ptr<CardManager> cm, int threshold);
+	void RefillDistrictCardDeckIfDepleted(shared_ptr<CardManager> cm, int threshold);
 };
 

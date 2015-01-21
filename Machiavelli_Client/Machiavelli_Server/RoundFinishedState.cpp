@@ -20,17 +20,17 @@ RoundFinishedState::RoundFinishedState()
 void RoundFinishedState::Handle(GameRunningState& context, GameManager& gm)
 {
 	// discarded rounds terughalen
-	vector<shared_ptr<CharacterCard>> discardedPile = gm.GetCardManager()->GetCharacterCardDiscardPile()->TakeCardPile();
-	gm.GetCardManager()->GetCharacterCardPile()->AddCardPile(discardedPile);
+	vector<shared_ptr<CharacterCard>> discardedPile = gm.GetCardManager()->GetCharacterCardDiscardDeck()->TakeCardDeck();
+	gm.GetCardManager()->GetCharacterCardDeck()->AddCardDeck(discardedPile);
 
 	// karakterkaarten van iedereen afpakken en terug op de standaardlijst
 	for (int i{ 0 }; i < gm.GetPlayerList()->Size(); i++) 
 	{
-		vector<shared_ptr<CharacterCard>> pile = gm.GetPlayerList()->GetPlayerAt(i)->GetCharacterCardContainer()->TakeCardPile();
+		vector<shared_ptr<CharacterCard>> pile = gm.GetPlayerList()->GetPlayerAt(i)->GetCharacterCardContainer()->TakeCardDeck();
 
 		for (auto &card : pile) 
 		{
-			gm.GetCardManager()->GetCharacterCardPile()->Push_Back(card);
+			gm.GetCardManager()->GetCharacterCardDeck()->push_back(card);
 		}
 	}
 
@@ -44,7 +44,7 @@ void RoundFinishedState::Handle(GameRunningState& context, GameManager& gm)
 	{
 		shared_ptr<Player> player = gm.GetPlayerList()->GetPlayerAt(i);
 
-		if (player->GetDistrictCardContainer()->Size() >= 8) 
+		if (player->GetDistrictCardContainer()->size() >= 8) 
 		{
 			gm.FinishGame();
 			break;

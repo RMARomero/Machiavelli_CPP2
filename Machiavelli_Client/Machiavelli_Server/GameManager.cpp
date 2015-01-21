@@ -13,8 +13,6 @@ GameManager::GameManager()
 	m_CardManager = unique_ptr < CardManager > {new CardManager};
 }
 
-
-
 void GameManager::GameLoop()
 {
 	while (!IsGameFinished())

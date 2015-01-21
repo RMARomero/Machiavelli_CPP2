@@ -1,13 +1,13 @@
 #include "CardManager.h"
-#include "CardPile.h"
+#include "CardDeck.h"
 
 CardManager::CardManager()
 {
 	
-	m_DistrictCardPile = shared_ptr<CardPile<DistrictCard>> { new CardPile<DistrictCard> };
-	m_DistrictCardDiscardPile = shared_ptr<CardPile<DistrictCard>> { new CardPile<DistrictCard> };
-	m_CharacterCardPile = shared_ptr<CardPile<CharacterCard>> { new CardPile<CharacterCard> };
-	m_CharacterCardDiscardPile = shared_ptr<CardPile<CharacterCard>> { new CardPile<CharacterCard> };
+	m_DistrictCardDeck = shared_ptr<CardDeck<DistrictCard>> { new CardDeck<DistrictCard> };
+	m_DistrictCardDiscardDeck = shared_ptr<CardDeck<DistrictCard>> { new CardDeck<DistrictCard> };
+	m_CharacterCardDeck = shared_ptr<CardDeck<CharacterCard>> { new CardDeck<CharacterCard> };
+	m_CharacterCardDiscardDeck = shared_ptr<CardDeck<CharacterCard>> { new CardDeck<CharacterCard> };
 
 
 	m_CharacterCardEnumToStringConversionMap[Assassin] = "Assassin";
@@ -30,18 +30,18 @@ CardManager::CardManager()
 	shared_ptr<CharacterCard> Architect{ new CharacterCard("Architect", eCharacterCard::Architect) };
 	shared_ptr<CharacterCard> Warlord{ new CharacterCard("Warlord", eCharacterCard::Warlord) };
 
-	m_CharacterCardPile->Push_Back(Assassin);
-	m_CharacterCardPile->Push_Back(Thief);
-	m_CharacterCardPile->Push_Back(Magician);
-	m_CharacterCardPile->Push_Back(King);
-	m_CharacterCardPile->Push_Back(Bishop);
-	m_CharacterCardPile->Push_Back(Merchant);
-	m_CharacterCardPile->Push_Back(Architect);
-	m_CharacterCardPile->Push_Back(Warlord);
+	m_CharacterCardDeck->push_back(Assassin);
+	m_CharacterCardDeck->push_back(Thief);
+	m_CharacterCardDeck->push_back(Magician);
+	m_CharacterCardDeck->push_back(King);
+	m_CharacterCardDeck->push_back(Bishop);
+	m_CharacterCardDeck->push_back(Merchant);
+	m_CharacterCardDeck->push_back(Architect);
+	m_CharacterCardDeck->push_back(Warlord);
 
 	CardReader reader("district_cards.csv");
 	reader.parse();
 
-	m_DistrictCardPile->AddCardPile(reader.getCards());
+	m_DistrictCardDeck->AddCardDeck(reader.getCards());
 }
 

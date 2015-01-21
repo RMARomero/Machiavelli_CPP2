@@ -18,9 +18,9 @@ void ArchitectState::Handle(GameRunningState& context, GameManager& gm)
 	context.setState(unique_ptr<IRoundState> { new WarlordState });
 }
 
-void ArchitectState::PickDistrictCard(shared_ptr<CardPile<DistrictCard>> cp, int amount) 
+void ArchitectState::PickDistrictCard(shared_ptr<CardDeck<DistrictCard>> cp, int amount) 
 {
-	int askTimes = std::min<int>(cp->Size(), 2);
+	int askTimes = std::min<int>(cp->size(), 2);
 
 	for (int i = 0; i < askTimes; i++) 
 	{
@@ -30,7 +30,7 @@ void ArchitectState::PickDistrictCard(shared_ptr<CardPile<DistrictCard>> cp, int
 
 void ArchitectState::BuildSomething() 
 {
-	int askTimes = std::min<int>(m_CurrentPlayer->GetDistrictCardContainer()->Size(), 3);
+	int askTimes = std::min<int>(m_CurrentPlayer->GetDistrictCardContainer()->size(), 3);
 
 	for (int i{ 0 }; i < askTimes; i++) 
 	{

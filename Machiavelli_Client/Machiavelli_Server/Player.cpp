@@ -10,26 +10,22 @@ Player::Player(shared_ptr<Socket> socket)
 	m_Socket = (socket);
 }
 
-
-
-
-
-shared_ptr<CardPile<CharacterCard>> Player::GetCharacterCardContainer(){
+shared_ptr<CardDeck<CharacterCard>> Player::GetCharacterCardContainer(){
 	return m_CharacterCards;//TODO
 }
-shared_ptr<CardPile<DistrictCard>> Player::GetDistrictCardContainer(){
+shared_ptr<CardDeck<DistrictCard>> Player::GetDistrictCardContainer(){
 	return m_DistrictCards;//TODO
 }
 
-shared_ptr<CardPile<DistrictCard>> Player::GetCityCardContainer() {
+shared_ptr<CardDeck<DistrictCard>> Player::GetCityCardContainer() {
 	return m_City;
 }
 
 
 bool Player::HasCharacterCard(eCharacterCard role){
 	bool found = false;
-	for (int i = 0; i < m_CharacterCards->Size() && !found; i++){
-		found = m_CharacterCards->GetCardPile().at(i)->GetEnum() == role;
+	for (int i = 0; i < m_CharacterCards->size() && !found; i++){
+		found = m_CharacterCards->GetCardDeck().at(i)->GetEnum() == role;
 	}
 	return found;
 }
@@ -136,8 +132,8 @@ void Player::GiveGPForCards(CardColour colour) {
 
 	int cardCount{ 0 };
 
-	for (int i{ 0 }; i < GetCityCardContainer()->Size(); i++) {
-		if (GetCityCardContainer()->At(i)->getColour() == colour) {
+	for (int i{ 0 }; i < GetCityCardContainer()->size(); i++) {
+		if (GetCityCardContainer()->at(i)->getColour() == colour) {
 			cardCount++;
 		}
 	}
@@ -159,28 +155,24 @@ void Player::ShowStats() {
 
 	output += "> CITY <\n";
 
-	for (int i{ 0 }; i < GetCityCardContainer()->Size(); i++) {
-		output += " - " + GetCityCardContainer()->At(i)->getName() + "\n";
+	for (int i{ 0 }; i < GetCityCardContainer()->size(); i++) {
+		output += " - " + GetCityCardContainer()->at(i)->getName() + "\n";
 	}
 
 	output += "\n\n > DistrictCards < \n";
 
-	for (int i{ 0 }; i < GetDistrictCardContainer()->Size(); i++) {
-		output += " - " + GetDistrictCardContainer()->At(i)->getName() + "\n";
+	for (int i{ 0 }; i < GetDistrictCardContainer()->size(); i++) {
+		output += " - " + GetDistrictCardContainer()->at(i)->getName() + "\n";
 	}
 
 	output += "\n\n > Characters < \n";
 
-	for (int i{ 0 }; i < GetCharacterCardContainer()->Size(); i++) {
-		output += " - " + GetCharacterCardContainer()->At(i)->getName() + "\n";
+	for (int i{ 0 }; i < GetCharacterCardContainer()->size(); i++) {
+		output += " - " + GetCharacterCardContainer()->at(i)->getName() + "\n";
 	}
 
 	output += "\n\n Wallet: " + std::to_string(GetGoldPieces()) + "gp\n";
 
 	Send(output);
-}
-
-Player::~Player()
-{
 }
 

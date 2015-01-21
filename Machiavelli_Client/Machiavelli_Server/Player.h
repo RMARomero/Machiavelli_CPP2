@@ -5,7 +5,7 @@
 #include <memory>
 #include <vector>
 
-#include "CardPile.h"
+#include "CardDeck.h"
 #include "CharacterCard.h"
 #include "DistrictCard.h"
 
@@ -16,22 +16,13 @@ using std::string;
 
 class Player
 {
-private:
-	string m_Name;
-	int m_GoldPieces{ 0 };
-	shared_ptr<Socket> m_Socket;
-	shared_ptr<CardPile<CharacterCard>> m_CharacterCards = shared_ptr<CardPile<CharacterCard>> { new CardPile<CharacterCard> };
-	shared_ptr<CardPile<DistrictCard>> m_DistrictCards = shared_ptr<CardPile<DistrictCard>> { new CardPile<DistrictCard> };
-	shared_ptr<CardPile<DistrictCard>> m_City = shared_ptr<CardPile<DistrictCard>> { new CardPile<DistrictCard> };
-
-	bool ValidateAnswer(string input, vector<string> expectedAnswers);
-
 public:
 	Player(shared_ptr<Socket> socket);
+	virtual ~Player(){}
 
-	shared_ptr<CardPile<CharacterCard>> GetCharacterCardContainer();
-	shared_ptr<CardPile<DistrictCard>> GetDistrictCardContainer();
-	shared_ptr<CardPile<DistrictCard>> GetCityCardContainer();
+	shared_ptr<CardDeck<CharacterCard>> GetCharacterCardContainer();
+	shared_ptr<CardDeck<DistrictCard>> GetDistrictCardContainer();
+	shared_ptr<CardDeck<DistrictCard>> GetCityCardContainer();
 	bool HasCharacterCard(eCharacterCard role);
 
 	string GetName();
@@ -43,8 +34,6 @@ public:
 	int RequestInput(string question, vector<string> expectedAnswers);
 	string GetPlayerInput();
 
-	virtual ~Player();
-
 	void GiveGoldPieces(int amount);
 
 	int GetGoldPieces();
@@ -52,5 +41,15 @@ public:
 
 	void GiveGPForCards(CardColour colour);
 	void ShowStats();
+private:
+	string m_Name;
+	int m_GoldPieces{ 0 };
+	shared_ptr<Socket> m_Socket;
+	shared_ptr<CardDeck<CharacterCard>> m_CharacterCards = shared_ptr<CardDeck<CharacterCard>> { new CardDeck<CharacterCard> };
+	shared_ptr<CardDeck<DistrictCard>> m_DistrictCards = shared_ptr<CardDeck<DistrictCard>> { new CardDeck<DistrictCard> };
+	shared_ptr<CardDeck<DistrictCard>> m_City = shared_ptr<CardDeck<DistrictCard>> { new CardDeck<DistrictCard> };
+
+	bool ValidateAnswer(string input, vector<string> expectedAnswers);
+
 };
 

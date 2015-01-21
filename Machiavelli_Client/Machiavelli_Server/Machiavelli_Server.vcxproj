@@ -83,7 +83,7 @@
     <ClInclude Include="AssassinState.h" />
     <ClInclude Include="BishopState.h" />
     <ClInclude Include="CardManager.h" />
-    <ClInclude Include="CardPile.h" />
+    <ClInclude Include="CardDeck.h" />
     <ClInclude Include="CardReader.h" />
     <ClInclude Include="CharacterCard.h" />
     <ClInclude Include="CharacterSelectionState.h" />

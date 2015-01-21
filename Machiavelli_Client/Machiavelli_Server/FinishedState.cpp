@@ -13,14 +13,13 @@ void FinishedState::Handle(GameManager& gm)
 {
 	map<shared_ptr<Player>, int> scoreboard;
 	
-
 	for (int i{ 0 }; gm.GetPlayerList()->Size(); i++) 
 	{
 		int points{ 0 };
 		shared_ptr<Player> player = gm.GetPlayerList()->GetPlayerAt(i);
 
 		// Points for every building in the city
-		points += player->GetCityCardContainer()->Size();
+		points += player->GetCityCardContainer()->size();
 
 		// 5 points if player owns buildings of all the 5 colours
 		if (HasBuildingsOf5Colours(player)) {
@@ -31,7 +30,7 @@ void FinishedState::Handle(GameManager& gm)
 			points += 4;
 		}
 		// 2 points for each player who constructed 8 buildings as well
-		else if (player->GetCityCardContainer()->Size() >= 8) {
+		else if (player->GetCityCardContainer()->size() >= 8) {
 			points += 2;
 		}
 
@@ -63,9 +62,9 @@ bool FinishedState::HasBuildingsOf5Colours(shared_ptr<Player> player)
 {
 	vector<CardColour> checkList;
 	
-	for (int i{ 0 }; i < player->GetCityCardContainer()->Size(); i++)
+	for (int i{ 0 }; i < player->GetCityCardContainer()->size(); i++)
 	{
-		shared_ptr<DistrictCard> card = player->GetCityCardContainer()->At(i);
+		shared_ptr<DistrictCard> card = player->GetCityCardContainer()->at(i);
 
 		if (std::find(checkList.begin(), checkList.end(), card->getColour()) != checkList.end())
 		{
@@ -90,7 +89,7 @@ shared_ptr<Player> FinishedState::GetWinningPlayer(map<shared_ptr<Player>, int> 
 		}
 		else if (score.second == highestScore)
 		{
-			if (score.first->GetCityCardContainer()->Size() > winner->GetCityCardContainer()->Size())
+			if (score.first->GetCityCardContainer()->size() > winner->GetCityCardContainer()->size())
 			{
 				winner = score.first;
 			}
