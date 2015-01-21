@@ -7,9 +7,9 @@ class CharacterCard : public ICard
 {
 public:
 	CharacterCard(string name, eCharacterCard characterEnum);
-	eCharacterCard GetEnum();
+	virtual ~CharacterCard(){}
+	eCharacterCard GetEnum() { return m_Enum; }
 	eCharacterCard GetEnumStringValue();
-	virtual ~CharacterCard();
 
 private:
 	eCharacterCard m_Enum;
