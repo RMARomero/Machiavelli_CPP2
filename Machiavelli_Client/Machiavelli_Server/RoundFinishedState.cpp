@@ -15,25 +15,23 @@ RoundFinishedState::RoundFinishedState()
 	Also:
 	Reset character cards;
 	*/
-
-
 }
 
-void RoundFinishedState::Handle(GameRunningState& context, GameManager& gm){
-
+void RoundFinishedState::Handle(GameRunningState& context, GameManager& gm)
+{
 	// discarded rounds terughalen
 	vector<shared_ptr<CharacterCard>> discardedPile = gm.GetCardManager()->GetCharacterCardDiscardPile()->TakeCardPile();
 	gm.GetCardManager()->GetCharacterCardPile()->AddCardPile(discardedPile);
 
-
 	// karakterkaarten van iedereen afpakken en terug op de standaardlijst
-	for (int i{ 0 }; i < gm.GetPlayerList()->Size(); i++) {
+	for (int i{ 0 }; i < gm.GetPlayerList()->Size(); i++) 
+	{
 		vector<shared_ptr<CharacterCard>> pile = gm.GetPlayerList()->GetPlayerAt(i)->GetCharacterCardContainer()->TakeCardPile();
 
-		for (auto &card : pile) {
+		for (auto &card : pile) 
+		{
 			gm.GetCardManager()->GetCharacterCardPile()->Push_Back(card);
 		}
-		
 	}
 
 	// Afzien van iemand te doden of stelen als het niet gelukt is
@@ -42,24 +40,21 @@ void RoundFinishedState::Handle(GameRunningState& context, GameManager& gm){
 
 
 	// Has the game been finished?
-	for (int i{ 0 }; i < gm.GetPlayerList()->Size(); i++) {
+	for (int i{ 0 }; i < gm.GetPlayerList()->Size(); i++) 
+	{
 		shared_ptr<Player> player = gm.GetPlayerList()->GetPlayerAt(i);
 
-		if (player->GetDistrictCardContainer()->Size() >= 8) {
+		if (player->GetDistrictCardContainer()->Size() >= 8) 
+		{
 			gm.FinishGame();
 			break;
 		}
 	}
 
 
-	if (!gm.IsGameFinished()) {
+	if (!gm.IsGameFinished()) 
+	{
 		// dit niet doen als de game gefinished is, obviously!
 		context.setState(shared_ptr < IRoundState > { new CharacterSelectionState});
-
 	}
-
-}
-
-RoundFinishedState::~RoundFinishedState()
-{
 }

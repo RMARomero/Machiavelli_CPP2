@@ -1,12 +1,13 @@
 #pragma once
 #include "IRoundState.h"
+
 class ThiefState :
 	public IRoundState
 {
 public:
 	ThiefState();
+	virtual ~ThiefState(){}
 	void Handle(GameRunningState& context, GameManager& gm);
-	eCharacterCard currentRole();
-	virtual ~ThiefState();
+	eCharacterCard currentRole() { return Thief; }
 };
 

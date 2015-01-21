@@ -2,15 +2,18 @@
 #include "GameManager.h"
 #include "GameRunningState.h"
 #include "MagicianState.h"
+
 ThiefState::ThiefState()
 {
 	printf("Thief State\n");
 }
 
-void ThiefState::Handle(GameRunningState& context, GameManager& gm){
+void ThiefState::Handle(GameRunningState& context, GameManager& gm)
+{
 	IRoundState::Handle(context, gm);
 
-	if (m_CurrentPlayer.get() == nullptr || gm.isKilled(currentRole())) {
+	if (m_CurrentPlayer.get() == nullptr || gm.isKilled(currentRole())) 
+	{
 		context.setState(unique_ptr < IRoundState > {new MagicianState});
 		return;
 	}
@@ -25,11 +28,4 @@ void ThiefState::Handle(GameRunningState& context, GameManager& gm){
 	context.setState(unique_ptr < IRoundState > {new MagicianState});
 }
 
-ThiefState::~ThiefState()
-{
-}
-
-eCharacterCard ThiefState::currentRole() {
-	return Thief;
-}
 

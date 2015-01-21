@@ -5,8 +5,8 @@ class WarlordState :
 {
 public:
 	WarlordState();
+	~WarlordState(){}
 	void Handle(GameRunningState& context, GameManager& gm);
-	eCharacterCard currentRole();
-	~WarlordState();
+	eCharacterCard currentRole() { return Warlord; }
 };
 
