@@ -52,8 +52,10 @@ void CardReader::parse()
 	}
 	catch (ifstream::failure e) {
 		std::cout << "\nException opening/reading file: " << e.what() << "\n";
+		input.close();
 	}
-	input.close();
+	if (input.is_open())
+		input.close();
 }
 
 void CardReader::parseCharacters()
@@ -69,8 +71,7 @@ void CardReader::parseCharacters()
 		while (!input.eof()) // there is input overload classfile
 		{
 			getline(input, line, '\n');
-			//for (string line; getline(input, line);) //loop until end of file
-			//{
+
 			vector<string> result = split(line.c_str(), delimeter); //split the comma seperated entries into a vector of strings without the comma
 
 			if (result.size() < 2) //check to see you are not going to construct a big card
@@ -116,10 +117,10 @@ void CardReader::parseCharacters()
 	}
 	catch (ifstream::failure e) {
 		std::cout << "\nException opening/reading file: " << e.what() << "\n";
+		input.close();
 	}
-	input.close();
-
-
+	if (input.is_open())
+		input.close();
 }
 
 void CardReader::createCharCard(string name)
