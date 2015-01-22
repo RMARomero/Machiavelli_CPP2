@@ -10,6 +10,8 @@ GameManager::GameManager()
 	m_PlayerListContainer = shared_ptr<PlayerList> {new PlayerList};
 	m_CurrentGameState = unique_ptr<IGameState> {new LobbyState};
 	m_CardManager = unique_ptr <CardManager> {new CardManager};
+	m_eKilledCharacter = NotSet;
+	m_eRobbedCharacter = NotSet;
 }
 
 void GameManager::GameLoop()

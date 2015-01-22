@@ -11,14 +11,14 @@ CardReader::CardReader(string filePath)
 	m_ColourMap["rood"] = red;
 	m_ColourMap["lila"] = purple;
 
-	m_CharacterMap["Moordenaar"] = Assassin;
-	m_CharacterMap["Dief"] = Thief;
-	m_CharacterMap["Magiër"] = Magician;
-	m_CharacterMap["Koning"] = King;
-	m_CharacterMap["Prediker"] = Bishop;
-	m_CharacterMap["Koopman"] = Merchant;
-	m_CharacterMap["Bouwmeester"] = Architect;
-	m_CharacterMap["Condottiere"] = Warlord;
+	m_CharacterMap["Assassin"] = Assassin;
+	m_CharacterMap["Thief"] = Thief;
+	m_CharacterMap["Magician"] = Magician;
+	m_CharacterMap["King"] = King;
+	m_CharacterMap["Bishop"] = Bishop;
+	m_CharacterMap["Merchant"] = Merchant;
+	m_CharacterMap["Architect"] = Architect;
+	m_CharacterMap["Warlord"] = Warlord;
 }
 
 void CardReader::parse()
@@ -33,7 +33,7 @@ void CardReader::parse()
 		string line;
 		while (!input.eof()) // there is input overload classfile
 		{
-			getline(input, line, delimeter);
+			getline(input, line, '\n');
 			vector<string> result = split(line.c_str(), delimeter); //split the comma seperated entries into a vector of strings without the comma
 
 			if (result.size() < 5) //check to see you are not going to construct a big card
@@ -68,7 +68,7 @@ void CardReader::parseCharacters()
 		string line;
 		while (!input.eof()) // there is input overload classfile
 		{
-			getline(input, line, delimeter);
+			getline(input, line, '\n');
 			//for (string line; getline(input, line);) //loop until end of file
 			//{
 			vector<string> result = split(line.c_str(), delimeter); //split the comma seperated entries into a vector of strings without the comma
