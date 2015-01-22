@@ -1,4 +1,5 @@
 #include "CardReader.h"
+#include <iostream>
 
 CardReader::CardReader(string filePath)
 {
@@ -22,82 +23,108 @@ CardReader::CardReader(string filePath)
 
 void CardReader::parse()
 {
-	ifstream input(m_sFilePath); //create file stream object
+	ifstream input;
+	input.exceptions(ifstream::failbit | ifstream::badbit);
+	try {
 
-	char delimeter = ';';
+		input.open(m_sFilePath);
+		
+		char delimeter = ';';
+		string line;
+		while (!input.eof()) // there is input overload classfile
+		{
+			getline(input, line, delimeter);
+			vector<string> result = split(line.c_str(), delimeter); //split the comma seperated entries into a vector of strings without the comma
 
-	for (string line; getline(input, line);) //loop until end of file
-	{
-		vector<string> result = split(line.c_str(), delimeter); //split the comma seperated entries into a vector of strings without the comma
+			if (result.size() < 5) //check to see you are not going to construct a big card
+				continue;
 
-		if (result.size() < 5) //check to see you are not going to construct a big card
-			continue;
+			string name = result.at(0);
+			int costs = atoi(result.at(1).c_str());
+			int points = atoi(result.at(1).c_str());
+			string color = result.at(2);
+			int amount = atoi(result.at(3).c_str());
 
-		string name = result.at(0);
-		int costs = atoi(result.at(1).c_str());
-		int points = atoi(result.at(1).c_str());
-		string color = result.at(2);
-		int amount = atoi(result.at(3).c_str());
+			createCard(name, costs, points, color, amount, false);
+		}
 
-		createCard(name, costs, points, color, amount, false);
+
 	}
+	catch (ifstream::failure e) {
+		std::cout << "\nException opening/reading file: " << e.what() << "\n";
+	}
+	input.close();
 }
 
 void CardReader::parseCharacters()
 {
-	ifstream input(m_sFilePath); //create file stream object
+	ifstream input;
+	input.exceptions(ifstream::failbit | ifstream::badbit);
+	try {
 
-	char delimeter = ';';
+		input.open(m_sFilePath);
 
-	for (string line; getline(input, line);) //loop until end of file
-	{
-		vector<string> result = split(line.c_str(), delimeter); //split the comma seperated entries into a vector of strings without the comma
+		char delimeter = ';';
+		string line;
+		while (!input.eof()) // there is input overload classfile
+		{
+			getline(input, line, delimeter);
+			//for (string line; getline(input, line);) //loop until end of file
+			//{
+			vector<string> result = split(line.c_str(), delimeter); //split the comma seperated entries into a vector of strings without the comma
 
-		if (result.size() < 2) //check to see you are not going to construct a big card
-			continue;
+			if (result.size() < 2) //check to see you are not going to construct a big card
+				continue;
 
-		string name;
+			string name;
 
-		if (result.at(1) == "Moordenaar")
-		{
-			name = "Assassin";
-		}
-		else if (result.at(1) == "Dief")
-		{
-			name = "Thief";
-		}
-		else if(result.at(1) == "Magiër")
-		{
-			name = "Magician";
-		}
-		else if (result.at(1) == "Koning")
-		{
-			name = "King";
-		}
-		else if (result.at(1) == "Prediker")
-		{
-			name = "Bishop";
-		}
-		else if (result.at(1) == "Koopman")
-		{
-			name = "Merchant";
-		}
-		else if (result.at(1) == "Bouwmeester")
-		{
-			name = "Architect";
-		}
-		else if (result.at(1) == "Condottiere")
-		{
-			name = "Warlord";
-		}
+			if (result.at(1) == "Moordenaar")
+			{
+				name = "Assassin";
+			}
+			else if (result.at(1) == "Dief")
+			{
+				name = "Thief";
+			}
+			else if (result.at(1) == "Magiër")
+			{
+				name = "Magician";
+			}
+			else if (result.at(1) == "Koning")
+			{
+				name = "King";
+			}
+			else if (result.at(1) == "Prediker")
+			{
+				name = "Bishop";
+			}
+			else if (result.at(1) == "Koopman")
+			{
+				name = "Merchant";
+			}
+			else if (result.at(1) == "Bouwmeester")
+			{
+				name = "Architect";
+			}
+			else if (result.at(1) == "Condottiere")
+			{
+				name = "Warlord";
+			}
 
-		createCharCard(name);
+			createCharCard(name);
+		}
 	}
+	catch (ifstream::failure e) {
+		std::cout << "\nException opening/reading file: " << e.what() << "\n";
+	}
+	input.close();
+
+
 }
 
 void CardReader::createCharCard(string name)
 {
-	shared_ptr < CharacterCard > newCard{ new CharacterCard(name, m_CharacterMap[name])};
+	shared_ptr < CharacterCard > newCard{ new CharacterCard(name, m_CharacterMap[name]) };
 	m_CharCards.push_back(newCard);
 }
 

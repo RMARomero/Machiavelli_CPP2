@@ -22,7 +22,7 @@ void IRoundState::Handle(GameRunningState& context, GameManager& gm)
 		return;
 	}
 
-	RefillBuildingCardDeckIfDepleted(gm.GetCardManager(), DISTRICT_CARD_DEPLETION_THRESHOLD);
+	RefillBuildingCardDeckIfDepleted(gm.GetCardManager(), BUILDING_CARD_DEPLETION_THRESHOLD);
 
 	m_CurrentPlayer->ShowStats();
 

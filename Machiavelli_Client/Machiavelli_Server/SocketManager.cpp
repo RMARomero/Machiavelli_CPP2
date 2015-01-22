@@ -26,13 +26,20 @@ SocketManager& SocketManager::getInstance()
 
 void SocketManager::storeServerInformation()
 {
-	/*m_IP = "127.1.0.0";
-	m_Portnumber = 8765;*/
 	std::string ip;
-	const string textfile("config.txt");
+	const string textfile{ "config.txt" };
+
 	// input file stream, opent textfile voor lezen
-	ifstream input_file(textfile);
-	input_file >> m_iPort;
+	ifstream input_file;
+	input_file.exceptions(ifstream::failbit | ifstream::badbit);
+	try {
+		input_file.open(textfile);
+		input_file >> m_iPort;
+	}
+	catch (ifstream::failure e) {
+		std::cout << "\nException opening/reading file: " << e.what() << "\n";
+	}
+	input_file.close();
 }
 
 void SocketManager::start()
@@ -55,15 +62,15 @@ void SocketManager::start()
 	// create a server socket
 	ServerSocket server(m_iPort);
 
-	while (true) 
+	while (true)
 	{
-		try 
+		try
 		{
 			// wait for connection from client; will create new socket
 			cerr << "server listening" << '\n';
 			Socket* client = nullptr;
 
-			while ((client = server.accept()) != nullptr) 
+			while ((client = server.accept()) != nullptr)
 			{
 				// communicate with client over new socket in separate thread
 				thread handler{ handle_client, client, gm };
@@ -71,7 +78,7 @@ void SocketManager::start()
 				cerr << "server listening again" << '\n';
 			}
 		}
-		catch (const exception& ex) 
+		catch (const exception& ex)
 		{
 			cerr << ex.what() << ", resuming..." << '\n';
 		}

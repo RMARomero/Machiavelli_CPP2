@@ -7,11 +7,6 @@ AssassinState::AssassinState()
 {
 	printf("Assassin State\n");
 }
-
-AssassinState::~AssassinState()
-{
-}
-
 void AssassinState::Handle(GameRunningState& context, GameManager& gm)
 {
 	IRoundState::Handle(context, gm);
@@ -33,11 +28,6 @@ void AssassinState::Handle(GameRunningState& context, GameManager& gm)
 
 	gm.GetPlayerList()->SendAll("The " + gm.GetCardManager()->CharacterEnumToString(currentRole()) + "'s turn is over!\n");
 	context.setState(unique_ptr<IRoundState> {new ThiefState});
-}
-
-eCharacterCard AssassinState::currentRole() 
-{
-	return Assassin;
 }
 
 

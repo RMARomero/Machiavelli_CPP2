@@ -1,5 +1,7 @@
 #pragma once
-#define DISTRICT_CARD_DEPLETION_THRESHOLD 6
+
+#define BUILDING_CARD_DEPLETION_THRESHOLD 6
+
 #include "CardDeck.h"
 #include "BuildingCard.h"
 #include "CharacterCard.h"

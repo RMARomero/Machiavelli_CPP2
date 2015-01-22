@@ -18,13 +18,13 @@ game::game()
 
 	shared_ptr<ClientSocket> server{ new ClientSocket(m_IP, m_Portnumber) }; //we can pass some string literals and numbers here, but no
 
-	while (true) 
+	while (true)
 	{
-		try 
+		try
 		{
 			string cmd = server->readline(); //read first line
 
-			if (cmd == "Bye!") 
+			if (cmd == "Bye!")
 			{
 				server->close();
 				//break; //break the game loop, and end the connection
@@ -40,11 +40,11 @@ game::game()
 				cerr << cmd << '\n';
 			}
 		}
-		catch (const exception& ex) 
+		catch (const exception& ex)
 		{
 			//error happend here
 		}
-		catch (...) 
+		catch (...)
 		{
 			//error happend here
 		}
@@ -59,18 +59,26 @@ game::~game()
 
 void game::storeServerInformation()
 {
-	/*m_IP = "127.1.0.0";
-	m_Portnumber = 8765;*/
+
 	std::string ip;
-	const string textfile("config.txt");
-	ifstream input_file(textfile); //read file and extract ip/port etc.
-	if (input_file.is_open())
-	{
-		input_file >> ip;
-		input_file >> m_Portnumber;
-		m_IP = &ip[0];
-		input_file.close();
+	const string textfile{ "config.txt" };
+	ifstream input_file; //read file and extract ip/port etc.
+	input_file.exceptions(ifstream::failbit | ifstream::badbit);
+	try {
+
+		input_file.open(textfile);
+		if (input_file.is_open())
+		{
+			input_file >> ip;
+			input_file >> m_Portnumber;
+			m_IP = &ip[0];
+		}
 	}
+	catch (ifstream::failure e) {
+		std::cout << "\nException opening/reading file: " << e.what() << "\n";
+	}
+	input_file.close();
+
 }
 
 

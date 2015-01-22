@@ -5,9 +5,10 @@ class AssassinState : public IRoundState
 {
 public:
 	AssassinState();
-	~AssassinState();
+	~AssassinState(){}
 
 	void Handle(GameRunningState& context, GameManager& gm);
-	eCharacterCard currentRole();
+
+	eCharacterCard currentRole(){ return Assassin; }
 };
 
