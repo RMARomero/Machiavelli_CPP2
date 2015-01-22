@@ -100,7 +100,7 @@ void Player::GiveGPForCards(CardColour colour)
 
 	if (cardCount > 0)
 	{
-		Send("You have received additional goldpieces because of the buildings in your city! Bonus GP: " + std::to_string(cardCount));
+		Send("You have received additional gold because of the buildings in your city! Bonus gold: " + std::to_string(cardCount));
 		GiveGoldPieces(cardCount);
 
 	}
@@ -109,27 +109,27 @@ void Player::GiveGPForCards(CardColour colour)
 void Player::ShowStats()
 {
 	string output = "\n";
-	output += " ==== STATS ====\n";
+	output += " == Information ==\n";
 
-	output += "> CITY <\n";
+	output += "Your city's information:\n";
 
 	for (int i{ 0 }; i < GetCityCardContainer()->size(); i++) {
 		output += " - " + GetCityCardContainer()->at(i)->getName() + "\n";
 	}
 
-	output += "\n\n > BuildingCards < \n";
+	output += "\n\n Your BuildingCards: \n";
 
 	for (int i{ 0 }; i < GetBuildingCardContainer()->size(); i++) {
 		output += " - " + GetBuildingCardContainer()->at(i)->getName() + "\n";
 	}
 
-	output += "\n\n > Characters < \n";
+	output += "\n\n Your Characters:\n";
 
 	for (int i{ 0 }; i < GetCharacterCardContainer()->size(); i++) {
 		output += " - " + GetCharacterCardContainer()->at(i)->getName() + "\n";
 	}
 
-	output += "\n\n Wallet: " + std::to_string(GetGoldPieces()) + "gp\n";
+	output += "\n\n You currently have: " + std::to_string(GetGoldPieces()) + " gold\n";
 
 	Send(output);
 }
